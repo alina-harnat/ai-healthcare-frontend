@@ -63,12 +63,12 @@ async function refreshAccessToken(): Promise<boolean> {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        operationName: 'RefreshToken',
+        operationName: 'Refresh',
         query: print(REFRESH_TOKEN),
       }),
     });
 
-    if (!response.ok) {
+    if (!response) {
       return false;
     }
 
