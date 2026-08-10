@@ -1,0 +1,20 @@
+{
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "switch": "Don't have an account?",
+    "switchAction": "Create account"
+  },
+  "register": {
+    "email": "Email",
+    "password": "Password",
+    "submit": "Create account",
+    "switch": "Already have an account?",
+    "switchAction": "Sign in"
+  },
+  "validation": {
+    "email": "Please enter a valid email",
+    "password": "Password must be at least 8 characters"
+  }
+}
