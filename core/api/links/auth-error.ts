@@ -33,9 +33,17 @@ export const authErrorLink = new ErrorLink(({ error, operation, forward }) => {
         });
 
         subscription = forward(operation).subscribe({
-          next: (result) => observer.next(result),
-          error: (retryError) => observer.error(retryError),
-          complete: () => observer.complete(),
+          next: (result) => {
+            observer.next(result);
+          },
+
+          error: (retryError) => {
+            observer.error(retryError);
+          },
+
+          complete: () => {
+            observer.complete();
+          },
         });
       })
       .catch((retryError) => {
@@ -61,20 +69,22 @@ async function refreshAccessToken(): Promise<boolean> {
     const response = await fetch(process.env.NEXT_PUBLIC_GRAPHQL_URL!, {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         operationName: 'Refresh',
         query: print(REFRESH_TOKEN),
       }),
     });
 
-    if (!response) {
+    const result = await response.json();
+
+    if (!response.ok || result.errors) {
       return false;
     }
 
-    const result = await response.json();
-
-    return result.data?.refreshToken === true;
+    return result.data?.refresh;
   } catch {
     return false;
   }
