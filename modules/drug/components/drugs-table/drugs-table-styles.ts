@@ -29,7 +29,7 @@ export const StyledHeaderCell = styled(TableCell)(({ theme }) => ({
   top: 0,
   zIndex: 2,
 
-  backgroundColor: theme.palette.secondary[200],
+  backgroundColor: theme.palette.secondary[300],
   color: theme.palette.text.secondary,
 
   fontSize: 13,

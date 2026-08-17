@@ -1,6 +1,21 @@
-import { gql } from '@apollo/client';
+import { gql, TypedDocumentNode } from '@apollo/client';
+import type {
+  GenerateDrugMutationResponse,
+  GenerateDrugMutationVariables,
+  CreateDrugMutationResponse,
+  CreateDrugMutationVariables,
+  GetDrugsQueryResponse,
+  GetDrugsQueryVariables,
+  UpdateDrugMutationResponse,
+  UpdateDrugMutationVariables,
+  DeleteDrugMutationResponse,
+  DeleteDrugMutationVariables,
+} from '../../types';
 
-export const GENERATE_DRUG = gql`
+export const GENERATE_DRUG: TypedDocumentNode<
+  GenerateDrugMutationResponse,
+  GenerateDrugMutationVariables
+> = gql`
   mutation GenerateDrug($input: GenerateDrugInput!) {
     generateDrug(input: $input) {
       name
@@ -15,7 +30,10 @@ export const GENERATE_DRUG = gql`
   }
 `;
 
-export const CREATE_DRUG = gql`
+export const CREATE_DRUG: TypedDocumentNode<
+  CreateDrugMutationResponse,
+  CreateDrugMutationVariables
+> = gql`
   mutation CreateDrug($input: CreateDrugInput!) {
     createDrug(input: $input) {
       name
@@ -30,7 +48,10 @@ export const CREATE_DRUG = gql`
   }
 `;
 
-export const GET_DRUGS = gql`
+export const GET_DRUGS: TypedDocumentNode<
+  GetDrugsQueryResponse,
+  GetDrugsQueryVariables
+> = gql`
   query GetDrugs($input: GetDrugsInput!) {
     drugs(input: $input) {
       drugs {
@@ -51,7 +72,10 @@ export const GET_DRUGS = gql`
   }
 `;
 
-export const UPDATE_DRUG = gql`
+export const UPDATE_DRUG: TypedDocumentNode<
+  UpdateDrugMutationResponse,
+  UpdateDrugMutationVariables
+> = gql`
   mutation UpdateDrug($input: UpdateDrugInput!) {
     updateDrug(input: $input) {
       id
@@ -67,7 +91,10 @@ export const UPDATE_DRUG = gql`
   }
 `;
 
-export const DELETE_DRUG = gql`
+export const DELETE_DRUG: TypedDocumentNode<
+  DeleteDrugMutationResponse,
+  DeleteDrugMutationVariables
+> = gql`
   mutation DeleteDrug($input: DeleteDrugInput!) {
     deleteDrug(input: $input)
   }

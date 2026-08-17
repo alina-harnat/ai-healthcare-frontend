@@ -15,8 +15,9 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-import { DrugsTable, DrugDrawer, Drug } from '../components';
+import { DrugsTable, DrugDrawer } from '../components';
 import { drugApi } from '../api';
+import { type Drug } from '../types';
 
 const LIMIT = 10;
 const DEBOUNCE_DELAY_MS = 500;
@@ -110,7 +111,6 @@ export default function DrugsPage() {
   };
 
   const handleDrugCreated = () => {
-    // a newly created drug has no id in the mutation response, so reload page one
     fetchDrugs(0, true, searchText);
   };
 

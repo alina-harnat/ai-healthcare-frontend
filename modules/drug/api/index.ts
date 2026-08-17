@@ -6,63 +6,7 @@ import {
   GET_DRUGS,
   UPDATE_DRUG,
   DELETE_DRUG,
-} from './constants';
-
-import type { Drug } from '../components';
-
-export interface GetDrugsQueryResponse {
-  drugs: {
-    drugs: Drug[];
-    limit: number;
-    offset: number;
-    hasMore: boolean;
-  };
-}
-
-export interface GetDrugsQueryVariables {
-  input: {
-    limit: number;
-    offset: number;
-    search?: {
-      searchText?: string;
-    };
-  };
-}
-
-export interface DrugInput {
-  name: string;
-  brand: string;
-  description: string;
-  dosage: string;
-  activeIngredients: string[];
-  indications: string[];
-  contraindications: string[];
-  sideEffects: string[];
-}
-
-export interface CreateDrugMutationResponse {
-  createDrug: Omit<Drug, 'id'>;
-}
-
-export interface CreateDrugMutationVariables {
-  input: DrugInput;
-}
-
-export interface UpdateDrugMutationResponse {
-  updateDrug: Drug;
-}
-
-export interface UpdateDrugMutationVariables {
-  input: Partial<DrugInput> & { id: string };
-}
-
-export interface DeleteDrugMutationResponse {
-  deleteDrug: boolean;
-}
-
-export interface DeleteDrugMutationVariables {
-  input: { id: string };
-}
+} from './queries';
 
 export const drugApi = {
   useGenerateDrugMutation() {
@@ -70,26 +14,18 @@ export const drugApi = {
   },
 
   useCreateDrugMutation() {
-    return useMutation<CreateDrugMutationResponse, CreateDrugMutationVariables>(
-      CREATE_DRUG,
-    );
+    return useMutation(CREATE_DRUG);
   },
 
   useUpdateDrugMutation() {
-    return useMutation<UpdateDrugMutationResponse, UpdateDrugMutationVariables>(
-      UPDATE_DRUG,
-    );
+    return useMutation(UPDATE_DRUG);
   },
 
   useDeleteDrugMutation() {
-    return useMutation<DeleteDrugMutationResponse, DeleteDrugMutationVariables>(
-      DELETE_DRUG,
-    );
+    return useMutation(DELETE_DRUG);
   },
 
   useGetDrugsLazyQuery() {
-    return useLazyQuery<GetDrugsQueryResponse, GetDrugsQueryVariables>(
-      GET_DRUGS,
-    );
+    return useLazyQuery(GET_DRUGS);
   },
 };
