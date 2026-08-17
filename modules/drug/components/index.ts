@@ -1,1 +1,1 @@
-export { DrugsTable } from './drugs-table';
+export { DrugsTable, type Drug } from './drugs-table';

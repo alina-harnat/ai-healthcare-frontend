@@ -32,15 +32,20 @@ export const CREATE_DRUG = gql`
 
 export const GET_DRUGS = gql`
   query GetDrugs($input: GetDrugInput!) {
-    drugs(input: $input) {
-      name
-      brand
-      description
-      activeIngredients
-      dosage
-      indications
-      contraindications
-      sideEffects
+    drugs {
+        id
+        name
+        brand
+        description
+        indications
+        contraindications
+        dosage
+        sideEffects
+        activeIngredients
+      }
+      limit
+      offset
+      hasMore
     }
   }
 `;

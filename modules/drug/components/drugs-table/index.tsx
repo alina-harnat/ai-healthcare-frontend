@@ -19,7 +19,7 @@ import {
   EditCell,
 } from './drugs-table-styles';
 
-export interface Drug {
+export type Drug = {
   id: string;
   name: string;
   brand: string;
@@ -29,7 +29,7 @@ export interface Drug {
   dosage: string;
   sideEffects: string[];
   activeIngredients: string[];
-}
+};
 
 interface DrugsTableProps {
   drugs: Drug[];
