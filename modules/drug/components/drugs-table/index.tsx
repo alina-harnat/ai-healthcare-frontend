@@ -1,14 +1,19 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
+
 import {
+  CircularProgress,
   IconButton,
   TableBody,
+  TableCell,
   TableHead,
   TableRow,
   Tooltip,
 } from '@mui/material';
 
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import {
   StyledTableContainer,
@@ -16,7 +21,13 @@ import {
   StyledHeaderCell,
   StyledTableRow,
   StyledTableCell,
-  EditCell,
+  NoBreakTableCell,
+  DescriptionTableCell,
+  ChipsCell,
+  StyledChip,
+  ActionsCell,
+  EditButton,
+  DeleteButton,
 } from './drugs-table-styles';
 
 export type Drug = {
@@ -34,7 +45,17 @@ export type Drug = {
 interface DrugsTableProps {
   drugs: Drug[];
   onEdit: (drug: Drug) => void;
+  onDelete: (drug: Drug) => void;
+  hasMore?: boolean;
+  isLoadingMore?: boolean;
+  onLoadMore?: () => void;
 }
+
+const CELL_COMPONENTS = {
+  name: NoBreakTableCell,
+  brand: NoBreakTableCell,
+  description: DescriptionTableCell,
+} as const;
 
 const TABLE_COLUMNS = [
   {
@@ -55,12 +76,24 @@ const TABLE_COLUMNS = [
   {
     key: 'indications',
     label: 'Indications',
-    render: (drug: Drug) => drug.indications.join(', '),
+    render: (drug: Drug) => (
+      <ChipsCell>
+        {drug.indications.map((item) => (
+          <StyledChip key={item} label={item} size='small' variant='outlined' />
+        ))}
+      </ChipsCell>
+    ),
   },
   {
     key: 'contraindications',
     label: 'Contraindications',
-    render: (drug: Drug) => drug.contraindications.join(', '),
+    render: (drug: Drug) => (
+      <ChipsCell>
+        {drug.contraindications.map((item) => (
+          <StyledChip key={item} label={item} size='small' variant='outlined' />
+        ))}
+      </ChipsCell>
+    ),
   },
   {
     key: 'dosage',
@@ -70,18 +103,62 @@ const TABLE_COLUMNS = [
   {
     key: 'sideEffects',
     label: 'Side effects',
-    render: (drug: Drug) => drug.sideEffects.join(', '),
+    render: (drug: Drug) => (
+      <ChipsCell>
+        {drug.sideEffects.map((item) => (
+          <StyledChip key={item} label={item} size='small' variant='outlined' />
+        ))}
+      </ChipsCell>
+    ),
   },
   {
     key: 'activeIngredients',
     label: 'Active ingredients',
-    render: (drug: Drug) => drug.activeIngredients.join(', '),
+    render: (drug: Drug) => (
+      <ChipsCell>
+        {drug.activeIngredients.map((item) => (
+          <StyledChip key={item} label={item} size='small' variant='outlined' />
+        ))}
+      </ChipsCell>
+    ),
   },
 ] as const;
 
-export const DrugsTable = ({ drugs, onEdit }: DrugsTableProps) => {
+export const DrugsTable = ({
+  drugs,
+  onEdit,
+  onDelete,
+  hasMore = false,
+  isLoadingMore = false,
+  onLoadMore,
+}: DrugsTableProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const sentinelRef = useRef<HTMLTableRowElement>(null);
+
+  useEffect(() => {
+    if (!hasMore || !onLoadMore) return;
+
+    const container = containerRef.current;
+    const sentinel = sentinelRef.current;
+
+    if (!container || !sentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          onLoadMore();
+        }
+      },
+      { root: container },
+    );
+
+    observer.observe(sentinel);
+
+    return () => observer.disconnect();
+  }, [hasMore, onLoadMore, drugs.length]);
+
   return (
-    <StyledTableContainer>
+    <StyledTableContainer ref={containerRef}>
       <StyledTable stickyHeader>
         <TableHead>
           <TableRow>
@@ -97,22 +174,58 @@ export const DrugsTable = ({ drugs, onEdit }: DrugsTableProps) => {
 
         <TableBody>
           {drugs.map((drug) => (
-            <StyledTableRow key={drug.id}>
-              {TABLE_COLUMNS.map((column) => (
-                <StyledTableCell key={column.key}>
-                  {column.render(drug)}
-                </StyledTableCell>
-              ))}
+            <StyledTableRow
+              key={drug.id}
+              onClick={() => onEdit(drug)}
+              sx={{ cursor: 'pointer' }}
+            >
+              {TABLE_COLUMNS.map((column) => {
+                const Cell =
+                  CELL_COMPONENTS[column.key as keyof typeof CELL_COMPONENTS] ??
+                  StyledTableCell;
 
-              <EditCell>
+                return <Cell key={column.key}>{column.render(drug)}</Cell>;
+              })}
+
+              <ActionsCell>
                 <Tooltip title='Edit drug'>
-                  <IconButton size='small' onClick={() => onEdit(drug)}>
+                  <EditButton
+                    size='small'
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onEdit(drug);
+                    }}
+                  >
                     <EditIcon fontSize='small' />
-                  </IconButton>
+                  </EditButton>
                 </Tooltip>
-              </EditCell>
+
+                <Tooltip title='Delete drug'>
+                  <DeleteButton
+                    size='small'
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onDelete(drug);
+                    }}
+                  >
+                    <DeleteIcon fontSize='small' />
+                  </DeleteButton>
+                </Tooltip>
+              </ActionsCell>
             </StyledTableRow>
           ))}
+
+          {hasMore && (
+            <TableRow ref={sentinelRef}>
+              <TableCell
+                colSpan={TABLE_COLUMNS.length + 1}
+                align='center'
+                sx={{ border: 0, py: isLoadingMore ? 2 : 0 }}
+              >
+                {isLoadingMore && <CircularProgress size={20} />}
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </StyledTable>
     </StyledTableContainer>

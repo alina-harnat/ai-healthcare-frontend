@@ -31,8 +31,9 @@ export const CREATE_DRUG = gql`
 `;
 
 export const GET_DRUGS = gql`
-  query GetDrugs($input: GetDrugInput!) {
-    drugs {
+  query GetDrugs($input: GetDrugsInput!) {
+    drugs(input: $input) {
+      drugs {
         id
         name
         brand
@@ -47,5 +48,27 @@ export const GET_DRUGS = gql`
       offset
       hasMore
     }
+  }
+`;
+
+export const UPDATE_DRUG = gql`
+  mutation UpdateDrug($input: UpdateDrugInput!) {
+    updateDrug(input: $input) {
+      id
+      name
+      brand
+      description
+      activeIngredients
+      dosage
+      indications
+      contraindications
+      sideEffects
+    }
+  }
+`;
+
+export const DELETE_DRUG = gql`
+  mutation DeleteDrug($input: DeleteDrugInput!) {
+    deleteDrug(input: $input)
   }
 `;

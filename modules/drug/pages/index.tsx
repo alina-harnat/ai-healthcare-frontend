@@ -1,15 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Box,
-  TextField,
   Button,
+  TextField,
   CircularProgress,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
-import { DrugsTable, Drug } from '../components';
+import { DrugsTable, DrugDrawer, Drug } from '../components';
 import { drugApi } from '../api';
 
 const LIMIT = 10;
@@ -17,46 +23,127 @@ const DEBOUNCE_DELAY_MS = 500;
 
 export default function DrugsPage() {
   const [searchText, setSearchText] = useState('');
+  const [drugs, setDrugs] = useState<Drug[]>([]);
   const [offset, setOffset] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
-  const [getDrugsFn, { data, loading, error }] = drugApi.useGetDrugsLazyQuery();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [editingDrug, setEditingDrug] = useState<Drug | null>(null);
+  const [deletingDrug, setDeletingDrug] = useState<Drug | null>(null);
+
+  const isFetchingRef = useRef(false);
+
+  const [getDrugsFn, { loading, error }] = drugApi.useGetDrugsLazyQuery();
+  const [deleteDrugFn, { loading: deleting, error: deleteError }] =
+    drugApi.useDeleteDrugMutation();
+
+  const fetchDrugs = useCallback(
+    async (requestOffset: number, reset: boolean, search: string) => {
+      if (isFetchingRef.current) {
+        return;
+      }
+
+      isFetchingRef.current = true;
+
+      try {
+        const { data } = await getDrugsFn({
+          variables: {
+            input: {
+              limit: LIMIT,
+              offset: requestOffset,
+              search: {
+                searchText: search.trim() || undefined,
+              },
+            },
+          },
+        });
+
+        const result = data?.drugs;
+
+        if (result) {
+          setDrugs((prev) =>
+            reset ? result.drugs : [...prev, ...result.drugs],
+          );
+          setOffset(requestOffset + result.drugs.length);
+          setHasMore(result.hasMore);
+        }
+      } finally {
+        isFetchingRef.current = false;
+      }
+    },
+    [getDrugsFn],
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      getDrugsFn({
-        variables: {
-          input: {
-            limit: LIMIT,
-            offset,
-            filters: {
-              searchText: searchText.trim() || undefined,
-            },
-          },
-        },
-      });
+      setHasMore(true);
+      fetchDrugs(0, true, searchText);
     }, DEBOUNCE_DELAY_MS);
 
     return () => clearTimeout(timer);
-  }, [searchText, offset, getDrugsFn]);
+  }, [searchText, fetchDrugs]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
-    setOffset(0);
   };
 
-  const handleNextPage = () => setOffset((prev) => prev + LIMIT);
-  const handlePrevPage = () => setOffset((prev) => Math.max(0, prev - LIMIT));
+  const handleLoadMore = () => {
+    if (!hasMore || isFetchingRef.current) {
+      return;
+    }
+
+    fetchDrugs(offset, false, searchText);
+  };
+
+  const handleAddDrug = () => {
+    setEditingDrug(null);
+    setDrawerOpen(true);
+  };
 
   const handleEditDrug = (drug: Drug) => {
-    console.log('Edit drug:', drug);
+    setEditingDrug(drug);
+    setDrawerOpen(true);
   };
 
-  const drugs = data?.getDrugs?.drugs || [];
-  const hasMore = data?.getDrugs?.hasMore || false;
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
+  const handleDrugCreated = () => {
+    // a newly created drug has no id in the mutation response, so reload page one
+    fetchDrugs(0, true, searchText);
+  };
+
+  const handleDrugUpdated = (drug: Drug) => {
+    setDrugs((prev) => prev.map((item) => (item.id === drug.id ? drug : item)));
+  };
+
+  const handleDeleteDrug = (drug: Drug) => {
+    setDeletingDrug(drug);
+  };
+
+  const handleDeleteCancel = () => {
+    setDeletingDrug(null);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deletingDrug) {
+      return;
+    }
+
+    const { data } = await deleteDrugFn({
+      variables: { input: { id: deletingDrug.id } },
+    });
+
+    if (data?.deleteDrug) {
+      setDrugs((prev) => prev.filter((item) => item.id !== deletingDrug.id));
+      setDeletingDrug(null);
+    }
+  };
 
   return (
     <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <Box sx={{ display: 'flex', gap: 2 }}>
+      <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between' }}>
         <TextField
           label='Search drugs'
           variant='outlined'
@@ -66,6 +153,14 @@ export default function DrugsPage() {
           sx={{ width: 300 }}
           placeholder='Type to search...'
         />
+
+        <Button
+          variant='contained'
+          startIcon={<AddIcon />}
+          onClick={handleAddDrug}
+        >
+          Add drug
+        </Button>
       </Box>
 
       {error && (
@@ -77,37 +172,55 @@ export default function DrugsPage() {
       {loading && drugs.length === 0 ? (
         <CircularProgress sx={{ mx: 'auto', mt: 4 }} />
       ) : (
-        <DrugsTable drugs={drugs} onEdit={handleEditDrug} />
+        <DrugsTable
+          drugs={drugs}
+          onEdit={handleEditDrug}
+          onDelete={handleDeleteDrug}
+          hasMore={hasMore}
+          isLoadingMore={loading && drugs.length > 0}
+          onLoadMore={handleLoadMore}
+        />
       )}
 
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          gap: 2,
-          alignItems: 'center',
-        }}
-      >
-        <Button
-          disabled={offset === 0 || loading}
-          onClick={handlePrevPage}
-          variant='outlined'
-        >
-          Previous
-        </Button>
+      <DrugDrawer
+        open={drawerOpen}
+        drug={editingDrug}
+        onClose={handleDrawerClose}
+        onCreated={handleDrugCreated}
+        onUpdated={handleDrugUpdated}
+      />
 
-        <Typography variant='body2'>
-          Page {Math.floor(offset / LIMIT) + 1}
-        </Typography>
+      <Dialog open={!!deletingDrug} onClose={handleDeleteCancel}>
+        <DialogTitle>Delete drug</DialogTitle>
 
-        <Button
-          disabled={!hasMore || loading}
-          onClick={handleNextPage}
-          variant='outlined'
-        >
-          Next
-        </Button>
-      </Box>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete &quot;{deletingDrug?.name}&quot;?
+            This action cannot be undone.
+          </DialogContentText>
+
+          {deleteError && (
+            <Typography color='error' sx={{ mt: 1 }}>
+              {deleteError.message}
+            </Typography>
+          )}
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleDeleteCancel} disabled={deleting}>
+            Cancel
+          </Button>
+
+          <Button
+            color='error'
+            variant='contained'
+            onClick={handleDeleteConfirm}
+            disabled={deleting}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
