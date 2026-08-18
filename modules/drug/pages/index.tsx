@@ -19,11 +19,6 @@ import { useTranslation } from 'react-i18next';
 import { DrugsTable, DrugDrawer } from '../components';
 import { drugApi } from '../api';
 import { type Drug } from '../types';
-import {
-  SuccessChip,
-  WarningChip,
-  ErrorChip,
-} from '../../common/components/status-chip';
 
 const LIMIT = 10;
 const DEBOUNCE_DELAY_MS = 500;
@@ -207,9 +202,6 @@ export default function DrugsPage() {
           onLoadMore={handleLoadMore}
         />
       )}
-      <SuccessChip message='Operation successful' />
-      <ErrorChip message='An error occurred' />
-      <WarningChip message='This is a warning' />
       <DrugDrawer
         open={drawerOpen}
         drug={editingDrug}
