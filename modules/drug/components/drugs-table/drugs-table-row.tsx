@@ -1,4 +1,6 @@
 import { Tooltip } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { DRUG_LOCALE } from '../../constants';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -23,6 +25,8 @@ export const DrugsTableRow = ({
   onEdit,
   onDelete,
 }: DrugsTableRowProps) => {
+  const { t } = useTranslation(DRUG_LOCALE);
+
   return (
     <StyledTableRow onClick={() => onEdit(drug)} sx={{ cursor: 'pointer' }}>
       {TABLE_COLUMNS.map((column) => {
@@ -34,7 +38,7 @@ export const DrugsTableRow = ({
       })}
 
       <ActionsCell>
-        <Tooltip title='Edit drug'>
+        <Tooltip title={t('table.edit')}>
           <EditButton
             size='small'
             onClick={(event) => {
@@ -46,7 +50,7 @@ export const DrugsTableRow = ({
           </EditButton>
         </Tooltip>
 
-        <Tooltip title='Delete drug'>
+        <Tooltip title={t('table.delete')}>
           <DeleteButton
             size='small'
             onClick={(event) => {

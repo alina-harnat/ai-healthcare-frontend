@@ -1,6 +1,7 @@
 'use client';
-
+import { DRUG_LOCALE } from '../../constants';
 import { FormProvider } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 
 import type { Drug } from '../../types';
@@ -40,6 +41,8 @@ export const DrugDrawer = ({
   onCreated,
   onUpdated,
 }: DrugDrawerProps) => {
+  const { t } = useTranslation(DRUG_LOCALE);
+
   const {
     form,
     isEditMode,
@@ -60,7 +63,9 @@ export const DrugDrawer = ({
   return (
     <StyledDrawer anchor='right' open={open} onClose={onClose}>
       <DrawerHeader>
-        <DrawerTitle>{isEditMode ? 'Edit drug' : 'Add drug'}</DrawerTitle>
+        <DrawerTitle>
+          {isEditMode ? t('drawer.editTitle') : t('drawer.addTitle')}
+        </DrawerTitle>
 
         <CloseButton size='small' onClick={onClose}>
           <CloseIcon fontSize='small' />
@@ -94,7 +99,7 @@ export const DrugDrawer = ({
 
       <DrawerFooter>
         <CancelButton onClick={onClose} disabled={loading || generating}>
-          Cancel
+          {t('page.cancel')}
         </CancelButton>
 
         <SubmitButton
@@ -102,7 +107,7 @@ export const DrugDrawer = ({
           disabled={loading || generating}
           onClick={onSubmit}
         >
-          {isEditMode ? 'Save' : 'Create'}
+          {isEditMode ? t('drawer.save') : t('drawer.create')}
         </SubmitButton>
       </DrawerFooter>
     </StyledDrawer>

@@ -1,5 +1,5 @@
 'use client';
-
+import { DRUG_LOCALE } from '../../constants';
 import {
   CircularProgress,
   TableBody,
@@ -16,6 +16,7 @@ import {
   StyledTable,
   StyledHeaderCell,
 } from './drugs-table-styles';
+import { useTranslation } from 'react-i18next';
 import type { Drug } from '../../types';
 
 interface DrugsTableProps {
@@ -35,6 +36,8 @@ export const DrugsTable = ({
   isLoadingMore = false,
   onLoadMore,
 }: DrugsTableProps) => {
+  const { t } = useTranslation(DRUG_LOCALE);
+
   const { containerRef, sentinelRef } = useInfiniteScroll(
     hasMore,
     drugs.length,
@@ -48,11 +51,13 @@ export const DrugsTable = ({
           <TableRow>
             {TABLE_COLUMNS.map((column) => (
               <StyledHeaderCell key={column.key}>
-                {column.label}
+                {t(column.label)}
               </StyledHeaderCell>
             ))}
 
-            <StyledHeaderCell align='center'>Actions</StyledHeaderCell>
+            <StyledHeaderCell align='center'>
+              {t('table.actions')}
+            </StyledHeaderCell>
           </TableRow>
         </TableHead>
 

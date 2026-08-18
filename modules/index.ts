@@ -1,7 +1,8 @@
 import type { Module } from './common/types';
 import { AuthModule } from './auth/module';
+import { DrugModule } from './drug/module';
 
-const modules = [AuthModule];
+const modules = [AuthModule, DrugModule];
 
 const { routes, locales } = modules.reduce<Module>(
   (moduleComponents, module) => ({

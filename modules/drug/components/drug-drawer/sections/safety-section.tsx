@@ -1,6 +1,7 @@
 'use client';
-
+import { DRUG_LOCALE } from '../../../constants';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import HealthAndSafetyOutlinedIcon from '@mui/icons-material/HealthAndSafetyOutlined';
 
 import type { DrugFormValues } from '../../../schemas';
@@ -8,6 +9,8 @@ import { ChipArrayField } from '../chip-array-field';
 import { Section, SectionHeader, SectionTitle } from '../drug-drawer-styles';
 
 export const SafetySection = () => {
+  const { t } = useTranslation(DRUG_LOCALE);
+
   const {
     control,
     formState: { errors },
@@ -17,7 +20,7 @@ export const SafetySection = () => {
     <Section>
       <SectionHeader>
         <HealthAndSafetyOutlinedIcon />
-        <SectionTitle>Safety</SectionTitle>
+        <SectionTitle>{t('drawer.safety')}</SectionTitle>
       </SectionHeader>
 
       <Controller
@@ -25,13 +28,13 @@ export const SafetySection = () => {
         control={control}
         render={({ field }) => (
           <ChipArrayField
-            label='Contraindications'
-            placeholder='Add contraindication'
+            label={t('drawer.contraindications')}
+            placeholder={t('drawer.addContraindication')}
             values={field.value}
             onChange={field.onChange}
             error={
               errors.contraindications
-                ? 'At least one contraindication is required'
+                ? t('drawer.contraindicationsRequired')
                 : undefined
             }
           />
@@ -43,14 +46,12 @@ export const SafetySection = () => {
         control={control}
         render={({ field }) => (
           <ChipArrayField
-            label='Side effects'
-            placeholder='Add side effect'
+            label={t('drawer.sideEffects')}
+            placeholder={t('drawer.addSideEffect')}
             values={field.value}
             onChange={field.onChange}
             error={
-              errors.sideEffects
-                ? 'At least one side effect is required'
-                : undefined
+              errors.sideEffects ? t('drawer.sideEffectsRequired') : undefined
             }
           />
         )}

@@ -1,0 +1,63 @@
+{
+  "page": {
+    "searchLabel": "Search drugs",
+    "searchPlaceholder": "Type to search...",
+    "addDrug": "Add drug",
+    "loadingError": "Error loading drugs:",
+    "deleteTitle": "Delete drug",
+    "deleteConfirmation": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "table": {
+    "name": "Name",
+    "brand": "Brand",
+    "description": "Description",
+    "indications": "Indications",
+    "contraindications": "Contraindications",
+    "dosage": "Dosage",
+    "sideEffects": "Side effects",
+    "activeIngredients": "Active ingredients",
+    "actions": "Actions",
+    "edit": "Edit drug",
+    "delete": "Delete drug"
+  },
+  "drawer": {
+    "editTitle": "Edit drug",
+    "addTitle": "Add drug",
+    "save": "Save",
+    "create": "Create",
+    "generalInformation": "General information",
+    "name": "Name",
+    "brand": "Brand",
+    "description": "Description",
+    "ingredients": "Ingredients",
+    "activeIngredients": "Active ingredients",
+    "addActiveIngredient": "Add active ingredient",
+    "activeIngredientsRequired": "At least one active ingredient is required",
+    "safety": "Safety",
+    "contraindications": "Contraindications",
+    "addContraindication": "Add contraindication",
+    "contraindicationsRequired": "At least one contraindication is required",
+    "sideEffects": "Side effects",
+    "addSideEffect": "Add side effect",
+    "sideEffectsRequired": "At least one side effect is required",
+    "usage": "Usage",
+    "indications": "Indications",
+    "addIndication": "Add indication",
+    "indicationsRequired": "At least one indication is required",
+    "dosage": "Dosage"
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "brandRequired": "Brand is required",
+    "descriptionRequired": "Description is required",
+    "dosageRequired": "Dosage is required"
+  },
+  "generator": {
+    "title": "Generate with AI",
+    "placeholder": "Describe the drug you want to generate",
+    "generating": "Generating...",
+    "generate": "Generate"
+  }
+}

@@ -1,6 +1,7 @@
 'use client';
-
+import { DRUG_LOCALE } from '../../../constants';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import ScienceOutlinedIcon from '@mui/icons-material/ScienceOutlined';
 
 import type { DrugFormValues } from '../../../schemas';
@@ -8,6 +9,8 @@ import { ChipArrayField } from '../chip-array-field';
 import { Section, SectionHeader, SectionTitle } from '../drug-drawer-styles';
 
 export const IngredientsSection = () => {
+  const { t } = useTranslation(DRUG_LOCALE);
+
   const {
     control,
     formState: { errors },
@@ -17,7 +20,7 @@ export const IngredientsSection = () => {
     <Section>
       <SectionHeader>
         <ScienceOutlinedIcon />
-        <SectionTitle>Ingredients</SectionTitle>
+        <SectionTitle>{t('drawer.ingredients')}</SectionTitle>
       </SectionHeader>
 
       <Controller
@@ -25,13 +28,13 @@ export const IngredientsSection = () => {
         control={control}
         render={({ field }) => (
           <ChipArrayField
-            label='Active ingredients'
-            placeholder='Add active ingredient'
+            label={t('drawer.activeIngredients')}
+            placeholder={t('drawer.addActiveIngredient')}
             values={field.value}
             onChange={field.onChange}
             error={
               errors.activeIngredients
-                ? 'At least one active ingredient is required'
+                ? t('drawer.activeIngredientsRequired')
                 : undefined
             }
           />

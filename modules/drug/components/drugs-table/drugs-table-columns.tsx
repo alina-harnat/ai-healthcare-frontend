@@ -23,42 +23,42 @@ const renderChips = (items: string[]) => (
 export const TABLE_COLUMNS = [
   {
     key: 'name',
-    label: 'Name',
+    label: 'table.name',
     render: (drug: Drug) => drug.name,
   },
   {
     key: 'brand',
-    label: 'Brand',
+    label: 'table.brand',
     render: (drug: Drug) => drug.brand,
   },
   {
     key: 'description',
-    label: 'Description',
+    label: 'table.description',
     render: (drug: Drug) => drug.description,
   },
   {
     key: 'indications',
-    label: 'Indications',
+    label: 'table.indications',
     render: (drug: Drug) => renderChips(drug.indications),
   },
   {
     key: 'contraindications',
-    label: 'Contraindications',
+    label: 'table.contraindications',
     render: (drug: Drug) => renderChips(drug.contraindications),
   },
   {
     key: 'dosage',
-    label: 'Dosage',
+    label: 'table.dosage',
     render: (drug: Drug) => drug.dosage,
   },
   {
     key: 'sideEffects',
-    label: 'Side effects',
+    label: 'table.sideEffects',
     render: (drug: Drug) => renderChips(drug.sideEffects),
   },
   {
     key: 'activeIngredients',
-    label: 'Active ingredients',
+    label: 'table.activeIngredients',
     render: (drug: Drug) => renderChips(drug.activeIngredients),
   },
 ] as const;

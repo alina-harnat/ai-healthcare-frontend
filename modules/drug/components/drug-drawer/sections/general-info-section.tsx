@@ -1,6 +1,7 @@
 'use client';
-
+import { DRUG_LOCALE } from '../../../constants';
 import { useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import type { DrugFormValues } from '../../../schemas';
@@ -14,6 +15,8 @@ import {
 } from '../drug-drawer-styles';
 
 export const GeneralInfoSection = () => {
+  const { t } = useTranslation(DRUG_LOCALE);
+
   const {
     register,
     formState: { errors },
@@ -23,35 +26,35 @@ export const GeneralInfoSection = () => {
     <Section>
       <SectionHeader>
         <InfoOutlinedIcon />
-        <SectionTitle>General information</SectionTitle>
+        <SectionTitle>{t('drawer.generalInformation')}</SectionTitle>
       </SectionHeader>
 
       <FieldGroup>
-        <Label htmlFor='name'>Name</Label>
+        <Label htmlFor='name'>{t('drawer.name')}</Label>
 
         <StyledTextField
           id='name'
           size='small'
           error={!!errors.name}
-          helperText={errors.name ? 'Name is required' : undefined}
+          helperText={errors.name ? t('validation.nameRequired') : undefined}
           {...register('name')}
         />
       </FieldGroup>
 
       <FieldGroup>
-        <Label htmlFor='brand'>Brand</Label>
+        <Label htmlFor='brand'>{t('drawer.brand')}</Label>
 
         <StyledTextField
           id='brand'
           size='small'
           error={!!errors.brand}
-          helperText={errors.brand ? 'Brand is required' : undefined}
+          helperText={errors.brand ? t('validation.brandRequired') : undefined}
           {...register('brand')}
         />
       </FieldGroup>
 
       <FieldGroup>
-        <Label htmlFor='description'>Description</Label>
+        <Label htmlFor='description'>{t('drawer.description')}</Label>
 
         <StyledTextField
           id='description'
@@ -60,7 +63,7 @@ export const GeneralInfoSection = () => {
           minRows={3}
           error={!!errors.description}
           helperText={
-            errors.description ? 'Description is required' : undefined
+            errors.description ? t('validation.descriptionRequired') : undefined
           }
           {...register('description')}
         />

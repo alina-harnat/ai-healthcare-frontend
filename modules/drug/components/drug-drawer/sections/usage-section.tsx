@@ -1,6 +1,7 @@
 'use client';
-
+import { DRUG_LOCALE } from '../../../constants';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import MedicationOutlinedIcon from '@mui/icons-material/MedicationOutlined';
 
 import type { DrugFormValues } from '../../../schemas';
@@ -15,6 +16,8 @@ import {
 } from '../drug-drawer-styles';
 
 export const UsageSection = () => {
+  const { t } = useTranslation(DRUG_LOCALE);
+
   const {
     control,
     register,
@@ -25,7 +28,7 @@ export const UsageSection = () => {
     <Section>
       <SectionHeader>
         <MedicationOutlinedIcon />
-        <SectionTitle>Usage</SectionTitle>
+        <SectionTitle>{t('drawer.usage')}</SectionTitle>
       </SectionHeader>
 
       <Controller
@@ -33,27 +36,27 @@ export const UsageSection = () => {
         control={control}
         render={({ field }) => (
           <ChipArrayField
-            label='Indications'
-            placeholder='Add indication'
+            label={t('drawer.indications')}
+            placeholder={t('drawer.addIndication')}
             values={field.value}
             onChange={field.onChange}
             error={
-              errors.indications
-                ? 'At least one indication is required'
-                : undefined
+              errors.indications ? t('drawer.indicationsRequired') : undefined
             }
           />
         )}
       />
 
       <FieldGroup>
-        <Label htmlFor='dosage'>Dosage</Label>
+        <Label htmlFor='dosage'>{t('drawer.dosage')}</Label>
 
         <StyledTextField
           id='dosage'
           size='small'
           error={!!errors.dosage}
-          helperText={errors.dosage ? 'Dosage is required' : undefined}
+          helperText={
+            errors.dosage ? t('validation.dosageRequired') : undefined
+          }
           {...register('dosage')}
         />
       </FieldGroup>

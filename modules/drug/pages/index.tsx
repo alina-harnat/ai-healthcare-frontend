@@ -1,5 +1,5 @@
 'use client';
-
+import { DRUG_LOCALE } from '../constants';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Box,
@@ -14,6 +14,7 @@ import {
   DialogActions,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { useTranslation } from 'react-i18next';
 
 import { DrugsTable, DrugDrawer } from '../components';
 import { drugApi } from '../api';
@@ -23,6 +24,7 @@ const LIMIT = 10;
 const DEBOUNCE_DELAY_MS = 500;
 
 export default function DrugsPage() {
+  const { t } = useTranslation(DRUG_LOCALE);
   const [searchText, setSearchText] = useState('');
   const [drugs, setDrugs] = useState<Drug[]>([]);
   const [offset, setOffset] = useState(0);
@@ -145,13 +147,13 @@ export default function DrugsPage() {
     <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
       <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between' }}>
         <TextField
-          label='Search drugs'
+          label={t('page.searchLabel')}
           variant='outlined'
           size='small'
           value={searchText}
           onChange={handleSearchChange}
           sx={{ width: 300 }}
-          placeholder='Type to search...'
+          placeholder={t('page.searchPlaceholder')}
         />
 
         <Button
@@ -159,13 +161,13 @@ export default function DrugsPage() {
           startIcon={<AddIcon />}
           onClick={handleAddDrug}
         >
-          Add drug
+          {t('page.addDrug')}
         </Button>
       </Box>
 
       {error && (
         <Typography color='error'>
-          Error loading drugs: {error.message}
+          {t('page.loadingError')} {error.message}
         </Typography>
       )}
 
@@ -191,12 +193,11 @@ export default function DrugsPage() {
       />
 
       <Dialog open={!!deletingDrug} onClose={handleDeleteCancel}>
-        <DialogTitle>Delete drug</DialogTitle>
+        <DialogTitle>{t('page.deleteTitle')}</DialogTitle>
 
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete &quot;{deletingDrug?.name}&quot;?
-            This action cannot be undone.
+            {t('page.deleteConfirmation', { name: deletingDrug?.name })}
           </DialogContentText>
 
           {deleteError && (
@@ -208,7 +209,7 @@ export default function DrugsPage() {
 
         <DialogActions>
           <Button onClick={handleDeleteCancel} disabled={deleting}>
-            Cancel
+            {t('page.cancel')}
           </Button>
 
           <Button
@@ -217,7 +218,7 @@ export default function DrugsPage() {
             onClick={handleDeleteConfirm}
             disabled={deleting}
           >
-            Delete
+            {t('page.delete')}
           </Button>
         </DialogActions>
       </Dialog>
