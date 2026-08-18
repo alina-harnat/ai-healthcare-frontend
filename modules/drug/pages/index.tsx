@@ -149,15 +149,33 @@ export default function DrugsPage() {
   };
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between' }}>
+    <Box
+      sx={{
+        p: 3,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 3,
+        minWidth: 0,
+        maxWidth: 1600,
+        mx: 'auto',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 2,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
         <TextField
           label={t('page.searchLabel')}
           variant='outlined'
           size='small'
           value={searchText}
           onChange={handleSearchChange}
-          sx={{ width: 300 }}
+          sx={{ width: { xs: '100%', sm: 300 } }}
           placeholder={t('page.searchPlaceholder')}
         />
 
@@ -165,6 +183,7 @@ export default function DrugsPage() {
           variant='contained'
           startIcon={<AddIcon />}
           onClick={handleAddDrug}
+          sx={{ width: { xs: '100%', sm: 'auto' } }}
         >
           {t('page.addDrug')}
         </Button>

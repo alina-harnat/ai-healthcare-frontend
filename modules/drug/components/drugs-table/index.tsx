@@ -47,6 +47,13 @@ export const DrugsTable = ({
   return (
     <StyledTableContainer ref={containerRef}>
       <StyledTable stickyHeader>
+        <colgroup>
+          {TABLE_COLUMNS.map((column) => (
+            <col key={column.key} style={{ width: column.width }} />
+          ))}
+          <col style={{ width: 88 }} />
+        </colgroup>
+
         <TableHead>
           <TableRow>
             {TABLE_COLUMNS.map((column) => (

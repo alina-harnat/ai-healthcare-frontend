@@ -11,7 +11,7 @@ import {
   EditButton,
   DeleteButton,
 } from './drugs-table-styles';
-import { TABLE_COLUMNS, CELL_COMPONENTS } from './drugs-table-columns';
+import { TABLE_COLUMNS } from './drugs-table-columns';
 import type { Drug } from '../../types';
 
 interface DrugsTableRowProps {
@@ -29,13 +29,11 @@ export const DrugsTableRow = ({
 
   return (
     <StyledTableRow onClick={() => onEdit(drug)} sx={{ cursor: 'pointer' }}>
-      {TABLE_COLUMNS.map((column) => {
-        const Cell =
-          CELL_COMPONENTS[column.key as keyof typeof CELL_COMPONENTS] ??
-          StyledTableCell;
-
-        return <Cell key={column.key}>{column.render(drug)}</Cell>;
-      })}
+      {TABLE_COLUMNS.map((column) => (
+        <StyledTableCell key={column.key}>
+          {column.render(drug)}
+        </StyledTableCell>
+      ))}
 
       <ActionsCell>
         <Tooltip title={t('table.edit')}>

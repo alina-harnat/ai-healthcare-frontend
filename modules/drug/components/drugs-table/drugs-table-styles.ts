@@ -9,17 +9,24 @@ import {
   IconButton,
 } from '@mui/material';
 
+export const ROW_HEIGHT = 64;
+export const HEADER_HEIGHT = 56;
+const VISIBLE_ROWS = 10;
+
 export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
   margin: '24px auto',
-  maxHeight: 'calc(100vh - 48px)',
-  maxWidth: 1400,
+  height: HEADER_HEIGHT + ROW_HEIGHT * VISIBLE_ROWS,
+  maxWidth: 1600,
+  width: '100%',
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: 12,
   backgroundColor: theme.palette.background.paper,
 }));
 
 export const StyledTable = styled(Table)({
-  minWidth: 600,
+  width: '100%',
+  minWidth: 960,
+  tableLayout: 'fixed',
   borderCollapse: 'separate',
   borderSpacing: 0,
 });
@@ -29,17 +36,22 @@ export const StyledHeaderCell = styled(TableCell)(({ theme }) => ({
   top: 0,
   zIndex: 2,
 
+  height: HEADER_HEIGHT,
   backgroundColor: theme.palette.secondary[300],
   color: theme.palette.text.secondary,
 
   fontSize: 13,
   fontWeight: 600,
   whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
 
   borderBottom: `1px solid ${theme.palette.divider}`,
 }));
 
 export const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  height: ROW_HEIGHT,
+
   '&:last-child td': {
     borderBottom: 0,
   },
@@ -50,36 +62,47 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  height: ROW_HEIGHT,
   color: theme.palette.text.primary,
 
   fontSize: 14,
 
-  verticalAlign: 'top',
+  verticalAlign: 'middle',
 
   borderBottom: `1px solid ${theme.palette.divider}`,
 
-  maxWidth: 280,
-
-  whiteSpace: 'normal',
-
-  wordBreak: 'break-word',
+  overflow: 'hidden',
 }));
 
-export const NoBreakTableCell = styled(StyledTableCell)({
-  maxWidth: 160,
-  wordBreak: 'normal',
-  overflowWrap: 'normal',
+export const TruncatedText = styled('span')({
+  display: 'block',
+  width: '100%',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 });
 
-export const DescriptionTableCell = styled(StyledTableCell)({
-  maxHeight: 96,
-  overflowY: 'auto',
-  lineHeight: 1.4,
+export const ChipsCellWrapper = styled('div')({
+  position: 'relative',
+  overflow: 'hidden',
+  width: '100%',
 });
 
 export const ChipsCell = styled('div')({
   display: 'flex',
-  flexWrap: 'wrap',
+  flexWrap: 'nowrap',
+  overflow: 'hidden',
+  gap: 4,
+});
+
+export const MeasureRow = styled('div')({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  visibility: 'hidden',
+  pointerEvents: 'none',
+  display: 'flex',
+  flexWrap: 'nowrap',
   gap: 4,
 });
 
@@ -89,13 +112,22 @@ export const StyledChip = styled(Chip)(({ theme }) => ({
   border: `1px solid ${theme.palette.secondary[300]}`,
   fontSize: 12,
   height: 22,
+  flexShrink: 0,
+}));
+
+export const MoreChip = styled(StyledChip)(({ theme }) => ({
+  backgroundColor: theme.palette.grey[100],
+  borderColor: theme.palette.grey[300],
+  color: theme.palette.text.secondary,
+  fontWeight: 700,
+  cursor: 'default',
 }));
 
 export const ActionsCell = styled(TableCell)(({ theme }) => ({
-  width: 80,
+  width: 88,
   padding: 10,
   textAlign: 'center',
-  verticalAlign: 'top',
+  verticalAlign: 'middle',
   borderBottom: `1px solid ${theme.palette.divider}`,
   whiteSpace: 'nowrap',
 }));
