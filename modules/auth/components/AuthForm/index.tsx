@@ -69,12 +69,12 @@ export function AuthForm({ mode }: Props) {
       },
     });
 
-    router.replace('/');
+    router.replace('/drugs');
   };
 
   useEffect(() => {
     if (data) {
-      router.replace('/');
+      router.replace('/drugs');
     }
   }, [data, router]);
 

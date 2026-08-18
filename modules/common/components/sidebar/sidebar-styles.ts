@@ -1,18 +1,15 @@
 import { styled } from '@mui/material/styles';
-
 import {
-  Box,
+  Chip,
   Drawer,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Box,
   Typography,
-  IconButton,
 } from '@mui/material';
-
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 const DRAWER_WIDTH = 260;
 const COLLAPSED_WIDTH = 72;
@@ -67,13 +64,10 @@ export const LogoIconWrapper = styled(Box)(({ theme }) => ({
   width: 40,
   height: 40,
   flexShrink: 0,
-
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-
   borderRadius: 12,
-
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.background.paper,
 
@@ -89,18 +83,42 @@ export const BrandTitle = styled(Typography)(({ theme }) => ({
   letterSpacing: '-0.02em',
 }));
 
-export const ToggleButton = styled(IconButton)(({ theme }) => ({
+export const UserContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<{ open: boolean }>(({ theme, open }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: open ? 'initial' : 'center',
+  gap: 12,
+  minHeight: 48,
+  marginBottom: 24,
+  padding: open ? '0 16px' : '0 8px',
+  overflow: 'hidden',
   color: theme.palette.text.secondary,
+}));
 
-  '&:hover': {
-    backgroundColor: theme.palette.primary[100],
-    color: theme.palette.primary.main,
+export const UserIcon = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  color: theme.palette.primary.main,
+
+  '& svg': {
+    fontSize: 32,
   },
+}));
+
+export const UserEmail = styled(Typography)(({ theme }) => ({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  fontSize: 14,
+  color: theme.palette.text.secondary,
 }));
 
 export const StyledList = styled(List)({
   padding: 0,
-
   display: 'flex',
   flexDirection: 'column',
   gap: 8,
@@ -122,7 +140,9 @@ export const StyledListItemButton = styled(ListItemButton, {
   borderRadius: 12,
 
   backgroundColor: isActive ? theme.palette.primary[100] : 'transparent',
+
   color: isActive ? theme.palette.text.primary : theme.palette.text.secondary,
+
   transition: theme.transitions.create(['background-color', 'color'], {
     duration: theme.transitions.duration.shortest,
   }),
@@ -147,8 +167,8 @@ export const StyledListItemIcon = styled(ListItemIcon, {
   isOpen: boolean;
 }>(({ theme, isActive, isOpen }) => ({
   minWidth: 0,
-
   marginLeft: isOpen ? 24 : 2.4,
+  marginRight: isOpen ? 12 : 0,
 
   justifyContent: 'center',
 
@@ -173,12 +193,3 @@ export const StyledListItemText = styled(ListItemText, {
     fontWeight: isActive ? 600 : 400,
   },
 }));
-
-export const CollapsedToggleContainer = styled(Box)({
-  display: 'flex',
-  justifyContent: 'center',
-});
-
-export const CollapsedToggleIcon = styled(MenuOpenIcon)({
-  transform: 'rotate(180deg)',
-});

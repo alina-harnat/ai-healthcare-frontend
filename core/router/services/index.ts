@@ -30,7 +30,7 @@ class RouteService {
     const { access } = route.meta;
 
     if (access === RouteAccess.Guest && user) {
-      return '/';
+      return '/drugs';
     }
 
     if (access === RouteAccess.Protected && !user) {

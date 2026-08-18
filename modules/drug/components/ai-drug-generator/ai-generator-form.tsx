@@ -1,14 +1,15 @@
 'use client';
 
-import { FormHelperText } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { StyledTextField } from '../drug-drawer/drug-drawer-styles';
+
+import { ErrorChip } from '@/modules/common/components';
+import { DRUG_LOCALE } from '../../constants';
 import {
-  GenerateRow,
   GenerateButton,
   FormContainer,
+  PromptField,
+  ErrorContainer,
 } from './generate-drug-styles';
-import { DRUG_LOCALE } from '../../constants';
 
 interface AiGeneratorFormProps {
   prompt: string;
@@ -29,30 +30,30 @@ export const AiGeneratorForm = ({
 
   return (
     <FormContainer>
-      <GenerateRow>
-        <StyledTextField
-          size='small'
-          fullWidth
-          multiline
-          minRows={2}
-          maxRows={4}
-          placeholder={t('generator.placeholder')}
-          value={prompt}
-          onChange={(event) => onPromptChange(event.target.value)}
-          disabled={generating}
-        />
+      <PromptField
+        size='small'
+        fullWidth
+        multiline
+        minRows={5}
+        maxRows={5}
+        placeholder={t('generator.placeholder')}
+        value={prompt}
+        onChange={(event) => onPromptChange(event.target.value)}
+        disabled={generating}
+      />
 
-        <GenerateButton
-          type='button'
-          className={generating ? 'generating' : undefined}
-          disabled={generating || !prompt.trim()}
-          onClick={onSubmit}
-        >
-          {generating ? t('generator.generating') : t('generator.generate')}
-        </GenerateButton>
-      </GenerateRow>
+      <GenerateButton
+        type='button'
+        className={generating ? 'generating' : undefined}
+        disabled={generating || !prompt.trim()}
+        onClick={onSubmit}
+      >
+        {generating ? t('generator.generating') : t('generator.generate')}
+      </GenerateButton>
 
-      {error && <FormHelperText error>{error}</FormHelperText>}
+      <ErrorContainer>
+        {error && <ErrorChip message={error} maxWidth='100%' />}
+      </ErrorContainer>
     </FormContainer>
   );
 };

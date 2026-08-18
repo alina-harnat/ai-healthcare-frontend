@@ -20,7 +20,6 @@ import {
   DrawerTitle,
   CloseButton,
   DrawerBody,
-  ErrorContainer,
   DrawerFooter,
   CancelButton,
   SubmitButton,
@@ -74,8 +73,6 @@ export const DrugDrawer = ({
 
       <FormProvider {...form}>
         <DrawerBody onSubmit={onSubmit}>
-          <ErrorContainer role='alert'>{error?.message ?? ''}</ErrorContainer>
-
           {!isEditMode && (
             <DrugAiGenerator
               generating={generating}

@@ -3,9 +3,9 @@
 import { use, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { userApi } from '../../modules/user/api';
 import { layouts } from '../../core/router/layouts';
 import { routeService } from '../../core/router/services';
+import { useCurrentUser } from '../../modules/user/providers';
 
 type PageProps = {
   params: Promise<{
@@ -18,15 +18,12 @@ export default function DynamicPage({ params }: PageProps) {
   const { slug } = use(params);
 
   const path = slug?.join('/') ?? '';
-
   const route = routeService.resolvePath(path);
 
-  const { data, loading } = userApi.useCurrentUserQuery();
-
-  const user = data?.currentUser ?? null;
+  const { currentUser, loading } = useCurrentUser();
 
   const redirect =
-    route && !loading ? routeService.getRedirectPath(route, user) : null;
+    route && !loading ? routeService.getRedirectPath(route, currentUser) : null;
 
   useEffect(() => {
     if (redirect) {
@@ -39,11 +36,10 @@ export default function DynamicPage({ params }: PageProps) {
   }
 
   const LayoutComponent = layouts[route.meta.layout];
-
   const PageComponent = route.meta.component;
 
   return (
-    <LayoutComponent>
+    <LayoutComponent currentUser={currentUser}>
       <PageComponent />
     </LayoutComponent>
   );

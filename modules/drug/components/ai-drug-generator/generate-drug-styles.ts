@@ -1,6 +1,7 @@
 import { styled, keyframes, alpha } from '@mui/material/styles';
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import { SectionHeader } from '../drug-drawer/drug-drawer-styles';
+import { StyledTextField } from '../drug-drawer/drug-drawer-styles';
 
 const generateGlow = keyframes`
   0% {
@@ -40,19 +41,14 @@ export const GenerateSection = styled('section')(({ theme }) => ({
   border: `1px solid ${theme.palette.secondary[300]}`,
 }));
 
-export const GenerateRow = styled('div')(({ theme }) => ({
-  display: 'flex',
-  gap: theme.spacing(1),
-  alignItems: 'flex-start',
-}));
-
 export const GenerateButton = styled(Button)(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden',
   isolation: 'isolate',
+  alignSelf: 'flex-end',
   borderRadius: theme.spacing(1),
   whiteSpace: 'nowrap',
-  minWidth: 105,
+  minWidth: 150,
   backgroundColor: theme.palette.primary[500],
   color: theme.palette.background.paper,
   boxShadow: 'none',
@@ -78,8 +74,10 @@ export const GenerateButton = styled(Button)(({ theme }) => ({
     )`,
     backgroundSize: '200% 200%',
     animation: `${generateGlow} 2s ease infinite`,
-    boxShadow: `0 0 0 1px ${theme.palette.secondary[300]},
-                0 0 16px ${theme.palette.secondary[300]}`,
+    boxShadow: `
+      0 0 0 1px ${theme.palette.secondary[300]},
+      0 0 16px ${theme.palette.secondary[300]}
+    `,
     pointerEvents: 'none',
   },
 
@@ -109,6 +107,19 @@ export const GenerateButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+export const PromptField = styled(StyledTextField)({
+  '& .MuiInputBase-root': {
+    alignItems: 'flex-start',
+  },
+
+  '& textarea': {
+    minHeight: 120,
+    maxHeight: 120,
+    overflowY: 'auto !important',
+    resize: 'none',
+  },
+});
+
 export const ExpandableHeader = styled(SectionHeader)({
   cursor: 'pointer',
   justifyContent: 'space-between',
@@ -120,6 +131,14 @@ export const TitleWrapper = styled('div')({
   gap: '8px',
 });
 
-export const FormContainer = styled('div')({
-  paddingTop: '12px',
+export const FormContainer = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 12,
+});
+
+export const ErrorContainer = styled('div')({
+  minHeight: 24,
+  display: 'flex',
+  alignItems: 'flex-start',
 });
