@@ -2,6 +2,10 @@ import { gql, TypedDocumentNode } from '@apollo/client';
 import type {
   GenerateDrugMutationResponse,
   GenerateDrugMutationVariables,
+  IdentifyDrugMutationResponse,
+  IdentifyDrugMutationVariables,
+  GenerateDrugDetailsMutationResponse,
+  GenerateDrugDetailsMutationVariables,
   CreateDrugMutationResponse,
   CreateDrugMutationVariables,
   GetDrugsQueryResponse,
@@ -18,6 +22,36 @@ export const GENERATE_DRUG: TypedDocumentNode<
 > = gql`
   mutation GenerateDrug($input: GenerateDrugInput!) {
     generateDrug(input: $input) {
+      name
+      brand
+      description
+      activeIngredients
+      dosage
+      indications
+      contraindications
+      sideEffects
+    }
+  }
+`;
+
+export const IDENTIFY_DRUG: TypedDocumentNode<
+  IdentifyDrugMutationResponse,
+  IdentifyDrugMutationVariables
+> = gql`
+  mutation IdentifyDrug($input: GenerateDrugInput!) {
+    identifyDrug(input: $input) {
+      name
+      brand
+    }
+  }
+`;
+
+export const GENERATE_DRUG_DETAILS: TypedDocumentNode<
+  GenerateDrugDetailsMutationResponse,
+  GenerateDrugDetailsMutationVariables
+> = gql`
+  mutation GenerateDrugDetails($input: GenerateDrugDetailsInput!) {
+    generateDrugDetails(input: $input) {
       name
       brand
       description

@@ -3,6 +3,7 @@
     "searchLabel": "Search drugs",
     "searchPlaceholder": "Type to search...",
     "addDrug": "Add drug",
+    "generateDrug": "Generate",
     "loadingError": "Error loading drugs:",
     "deleteTitle": "Delete drug",
     "deleteConfirmation": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
@@ -59,5 +60,22 @@
     "placeholder": "Describe the drug you want to generate",
     "generating": "Generating...",
     "generate": "Generate"
+  },
+  "generatePage": {
+    "title": "",
+    "back": "Back to drugs",
+    "describeTitle": "",
+    "promptPlaceholder": "Describe the drug you want to generate",
+    "identify": "Identify",
+    "identifying": "Identifying...",
+    "identifiedTitle": "Is this the right drug?",
+    "name": "Name",
+    "brand": "Brand",
+    "editPrompt": "Edit description",
+    "confirm": "Confirm",
+    "generatingDetails": "Generating drug details...",
+    "reviewTitle": "Review generated drug",
+    "create": "Create",
+    "creating": "Creating..."
   }
 }

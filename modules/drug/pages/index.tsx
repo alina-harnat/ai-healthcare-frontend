@@ -14,6 +14,8 @@ import {
   DialogActions,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
 import { DrugsTable, DrugDrawer } from '../components';
@@ -25,6 +27,7 @@ const DEBOUNCE_DELAY_MS = 500;
 
 export default function DrugsPage() {
   const { t } = useTranslation(DRUG_LOCALE);
+  const router = useRouter();
   const [searchText, setSearchText] = useState('');
   const [drugs, setDrugs] = useState<Drug[]>([]);
   const [offset, setOffset] = useState(0);
@@ -103,6 +106,10 @@ export default function DrugsPage() {
     setDrawerOpen(true);
   };
 
+  const handleGenerateDrug = () => {
+    router.push('/drugs/generate');
+  };
+
   const handleEditDrug = (drug: Drug) => {
     setEditingDrug(drug);
     setDrawerOpen(true);
@@ -174,14 +181,32 @@ export default function DrugsPage() {
           placeholder={t('page.searchPlaceholder')}
         />
 
-        <Button
-          variant='contained'
-          startIcon={<AddIcon />}
-          onClick={handleAddDrug}
-          sx={{ width: { xs: '100%', sm: 'auto' } }}
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 2,
+            width: { xs: '100%', sm: 'auto' },
+          }}
         >
-          {t('page.addDrug')}
-        </Button>
+          <Button
+            variant='outlined'
+            startIcon={<AutoAwesomeIcon />}
+            onClick={handleGenerateDrug}
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
+          >
+            {t('page.generateDrug')}
+          </Button>
+
+          <Button
+            variant='contained'
+            startIcon={<AddIcon />}
+            onClick={handleAddDrug}
+            sx={{ width: { xs: '100%', sm: 'auto' } }}
+          >
+            {t('page.addDrug')}
+          </Button>
+        </Box>
       </Box>
 
       {error && (

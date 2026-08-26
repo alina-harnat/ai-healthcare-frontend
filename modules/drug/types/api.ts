@@ -61,3 +61,26 @@ export interface GenerateDrugMutationResponse {
 export interface GenerateDrugMutationVariables {
   input: { input: string };
 }
+
+export interface IdentifiedDrug {
+  name: string;
+  brand: string;
+}
+
+export interface IdentifyDrugMutationResponse {
+  identifyDrug: IdentifiedDrug;
+}
+
+export interface IdentifyDrugMutationVariables {
+  input: {
+    input: string;
+  };
+}
+
+export interface GenerateDrugDetailsMutationResponse {
+  generateDrugDetails: Omit<Drug, 'id'>;
+}
+
+export interface GenerateDrugDetailsMutationVariables {
+  input: IdentifiedDrug;
+}

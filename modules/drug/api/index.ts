@@ -2,6 +2,8 @@ import { useMutation, useLazyQuery } from '@apollo/client/react';
 
 import {
   GENERATE_DRUG,
+  IDENTIFY_DRUG,
+  GENERATE_DRUG_DETAILS,
   CREATE_DRUG,
   GET_DRUGS,
   UPDATE_DRUG,
@@ -11,6 +13,14 @@ import {
 export const drugApi = {
   useGenerateDrugMutation() {
     return useMutation(GENERATE_DRUG);
+  },
+
+  useIdentifyDrugMutation() {
+    return useMutation(IDENTIFY_DRUG);
+  },
+
+  useGenerateDrugDetailsMutation() {
+    return useMutation(GENERATE_DRUG_DETAILS);
   },
 
   useCreateDrugMutation() {
