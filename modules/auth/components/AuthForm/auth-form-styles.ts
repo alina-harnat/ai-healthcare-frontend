@@ -83,6 +83,11 @@ export const SubmitButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary[400],
   },
 
+  '&:focus-visible': {
+    outline: `2px solid ${theme.palette.primary[500]}`,
+    outlineOffset: 2,
+  },
+
   '&:disabled': {
     backgroundColor: theme.palette.primary[300],
     color: theme.palette.background.paper,
@@ -104,6 +109,11 @@ export const SwitchLink = styled(NextLink)(({ theme }) => ({
   '&:hover': {
     color: theme.palette.primary[400],
     textDecoration: 'underline',
+  },
+
+  '&:focus-visible': {
+    outline: `2px solid ${theme.palette.primary[500]}`,
+    outlineOffset: 2,
   },
 }));
 

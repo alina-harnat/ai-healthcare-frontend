@@ -3,9 +3,9 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
 import { loginSchema, registerSchema } from '../../schemas';
 import { authApi } from '../../api';
+import { CURRENT_USER } from '@/modules/user/api/constants';
 import {
   AuthCard,
   Form,
@@ -60,23 +60,27 @@ export function AuthForm({ mode }: Props) {
     },
   });
 
-  const [mutate, { data, error, loading }] = config.mutation();
+  const [mutate, { error, loading }] = config.mutation();
 
   const onSubmit = async (values: AuthFormValues) => {
-    await mutate({
-      variables: {
-        input: values,
-      },
-    });
-
-    router.replace('/drugs');
-  };
-
-  useEffect(() => {
-    if (data) {
-      router.replace('/drugs');
+    if (loading) {
+      return;
     }
-  }, [data, router]);
+
+    try {
+      await mutate({
+        variables: {
+          input: values,
+        },
+        refetchQueries: [{ query: CURRENT_USER }],
+        awaitRefetchQueries: true,
+      });
+
+      router.replace('/drugs');
+    } catch {
+      return;
+    }
+  };
 
   return (
     <AuthCard>
@@ -109,7 +113,12 @@ export function AuthForm({ mode }: Props) {
           />
         </FieldGroup>
 
-        <SubmitButton type='submit' variant='contained' disabled={loading}>
+        <SubmitButton
+          type='submit'
+          variant='contained'
+          loading={loading}
+          disabled={loading}
+        >
           {t(`${mode}.submit`)}
         </SubmitButton>
       </Form>
