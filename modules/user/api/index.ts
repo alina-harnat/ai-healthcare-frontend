@@ -1,10 +1,9 @@
 import { useQuery } from '@apollo/client/react';
 
-import { CURRENT_USER } from './constants';
-import { CurrentUserResponse } from '../types';
+import { CURRENT_USER } from './queries';
 
 export const userApi = {
   useCurrentUserQuery() {
-    return useQuery<CurrentUserResponse>(CURRENT_USER);
+    return useQuery(CURRENT_USER);
   },
 };

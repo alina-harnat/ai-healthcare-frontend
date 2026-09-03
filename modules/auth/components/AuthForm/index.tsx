@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { loginSchema, registerSchema } from '../../schemas';
 import { authApi } from '../../api';
-import { CURRENT_USER } from '@/modules/user/api/constants';
+import { CURRENT_USER } from '@/modules/user/api/queries';
 import {
   AuthCard,
   Form,
