@@ -11,7 +11,7 @@ export const routes: ModuleRoutes = [
     meta: {
       access: RouteAccess.Protected,
       layout: Layout.Dashboard,
-      permissions: [Permission.Admin],
+      permissions: [Permission.Admin, Permission.User],
       component: DrugsPage,
     },
   },
@@ -20,7 +20,7 @@ export const routes: ModuleRoutes = [
     meta: {
       access: RouteAccess.Protected,
       layout: Layout.Dashboard,
-      permissions: [Permission.Admin],
+      permissions: [Permission.Admin, Permission.User],
       component: GenerateDrugPage,
     },
   },

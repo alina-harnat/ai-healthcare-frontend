@@ -17,13 +17,7 @@ class RouteService {
   }
 
   public resolvePath(path: string): ModuleRoute | undefined {
-    const normalizedPath = path.replace(/^\/+/, '').replace(/\/+$/, '');
-
-    if (!this.routes) {
-      return;
-    }
-
-    return this.routes.find((route) => route.path === normalizedPath);
+    return this.routes?.find((route) => route.path === path);
   }
 
   private checkAccess(

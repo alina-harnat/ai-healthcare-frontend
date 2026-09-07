@@ -17,13 +17,16 @@ export default function DynamicPage({ params }: PageProps) {
   const router = useRouter();
   const { slug } = use(params);
 
-  const path = slug?.join('/') ?? '';
+  const path = `/${slug?.join('/') ?? ''}`;
   const route = routeService.resolvePath(path);
 
   const { currentUser, loading } = useCurrentUser();
 
-  const redirect =
-    route && !loading ? routeService.getRedirectPath(route, currentUser) : null;
+  const shouldRedirect = !!route && !loading;
+
+  const redirect = shouldRedirect
+    ? routeService.getRedirectPath(route, currentUser)
+    : null;
 
   useEffect(() => {
     if (redirect) {

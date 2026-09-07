@@ -17,6 +17,7 @@ import {
   SwitchLink,
   ErrorContainer,
 } from './auth-form-styles';
+import { AuthRoutes } from '../../enums';
 
 type AuthMode = 'login' | 'register';
 
@@ -33,12 +34,12 @@ const authConfig = {
   login: {
     schema: loginSchema,
     mutation: authApi.useLoginMutation,
-    switchPath: '/register',
+    switchPath: AuthRoutes.Register,
   },
   register: {
     schema: registerSchema,
     mutation: authApi.useRegisterMutation,
-    switchPath: '/login',
+    switchPath: AuthRoutes.Login,
   },
 } as const;
 

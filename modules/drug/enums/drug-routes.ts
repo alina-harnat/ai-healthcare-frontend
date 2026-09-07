@@ -1,4 +1,4 @@
 export enum DrugRoutes {
-  Drugs = 'drugs',
-  GenerateDrug = 'drugs/generate',
+  Drugs = '/drugs',
+  GenerateDrug = '/drugs/generate',
 }
