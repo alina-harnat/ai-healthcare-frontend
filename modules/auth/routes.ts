@@ -1,11 +1,11 @@
 import type { ModuleRoutes } from '../common/types';
 import { RouteAccess, Layout } from '../common/enums';
 import { LoginPage, RegisterPage } from './pages';
+import { AuthRoutes } from './enums';
 
 export const routes: ModuleRoutes = [
   {
-    path: 'login',
-    page: 'login',
+    path: AuthRoutes.Login,
     meta: {
       access: RouteAccess.Guest,
       layout: Layout.Auth,
@@ -14,8 +14,7 @@ export const routes: ModuleRoutes = [
     },
   },
   {
-    path: 'register',
-    page: 'register',
+    path: AuthRoutes.Register,
     meta: {
       access: RouteAccess.Guest,
       layout: Layout.Auth,

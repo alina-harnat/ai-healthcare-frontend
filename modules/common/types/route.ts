@@ -12,6 +12,5 @@ export type ModuleRoutes = ModuleRoute[];
 
 export type ModuleRoute = {
   path: string;
-  page: string;
   meta: RouteMeta;
 };

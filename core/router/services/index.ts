@@ -1,4 +1,7 @@
 import { RouteAccess } from '../../../modules/common/enums';
+import { DrugRoutes } from '../../../modules/drug/enums';
+import { AuthRoutes } from '../../../modules/auth/enums';
+import { CommonRoutes } from '../../../modules/common/enums';
 import type { ModuleRoute } from '../../../modules/common/types';
 import type { CurrentUser } from '../../../modules/user/types';
 import { RootModule } from '../../../modules';
@@ -30,11 +33,11 @@ class RouteService {
     const { access } = route.meta;
 
     if (access === RouteAccess.Guest && user) {
-      return '/drugs';
+      return DrugRoutes.Drugs;
     }
 
     if (access === RouteAccess.Protected && !user) {
-      return '/login';
+      return AuthRoutes.Login;
     }
 
     return null;
@@ -53,7 +56,7 @@ class RouteService {
     const hasPermission = permissions.includes(user.role);
 
     if (!hasPermission) {
-      return '/f';
+      return CommonRoutes.Forbidden;
     }
 
     return null;
