@@ -31,7 +31,7 @@ export interface DrugInput {
 }
 
 export interface CreateDrugMutationResponse {
-  createDrug: Omit<Drug, 'id'>;
+  createDrug: Drug;
 }
 
 export interface CreateDrugMutationVariables {

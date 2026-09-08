@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client/react';
 
-import { REGISTER, LOGIN, LOGOUT } from './constants';
+import { REGISTER, LOGIN, LOGOUT } from './queries';
 
 export const authApi = {
   useRegisterMutation() {

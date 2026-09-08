@@ -5,6 +5,7 @@
     "addDrug": "Add drug",
     "generateDrug": "Generate",
     "loadingError": "Error loading drugs:",
+    "createError": "Failed to add drug. Please try again.",
     "deleteTitle": "Delete drug",
     "deleteConfirmation": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
     "cancel": "Cancel",

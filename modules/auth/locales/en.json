@@ -11,7 +11,10 @@
     "password": "Password",
     "submit": "Create account",
     "switch": "Already have an account?",
-    "switchAction": "Sign in"
+    "switchAction": "Sign in",
+    "role": "Account type",
+    "userRole": "Customer",
+    "adminRole": "Supplier"
   },
   "validation": {
     "email": "Please enter a valid email",

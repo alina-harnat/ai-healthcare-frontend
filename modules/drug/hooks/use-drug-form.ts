@@ -21,7 +21,9 @@ interface UseDrugFormProps {
   open: boolean;
   drug?: Drug | null;
   onClose: () => void;
-  onCreated: () => void;
+  onCreate: (values: DrugFormValues) => void;
+  onCreated: (drug: Drug) => void;
+  onCreateError: () => void;
   onUpdated: (drug: Drug) => void;
 }
 
@@ -29,7 +31,9 @@ export const useDrugForm = ({
   open,
   drug,
   onClose,
+  onCreate,
   onCreated,
+  onCreateError,
   onUpdated,
 }: UseDrugFormProps) => {
   const isEditMode = !!drug;
@@ -90,15 +94,23 @@ export const useDrugForm = ({
       return;
     }
 
-    const { data } = await createDrug({
-      variables: {
-        input: values,
-      },
-    });
+    onCreate(values);
+    onClose();
 
-    if (data?.createDrug) {
-      onCreated();
-      onClose();
+    try {
+      const { data } = await createDrug({
+        variables: {
+          input: values,
+        },
+      });
+
+      if (data?.createDrug) {
+        onCreated(data.createDrug);
+      } else {
+        onCreateError();
+      }
+    } catch {
+      onCreateError();
     }
   };
 

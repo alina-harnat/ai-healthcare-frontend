@@ -1,7 +1,9 @@
 import { styled } from '@mui/material/styles';
 
 import {
+  Box,
   Chip,
+  Pagination,
   Table,
   TableCell,
   TableContainer,
@@ -11,17 +13,22 @@ import {
 
 export const ROW_HEIGHT = 64;
 export const HEADER_HEIGHT = 56;
-const VISIBLE_ROWS = 10;
 
-export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
-  margin: '24px auto',
-  height: HEADER_HEIGHT + ROW_HEIGHT * VISIBLE_ROWS,
+export const StyledTableWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  margin: '24px auto 0',
   maxWidth: 1600,
   width: '100%',
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: 12,
   backgroundColor: theme.palette.background.paper,
+  overflow: 'hidden',
 }));
+
+export const StyledTableContainer = styled(TableContainer)({
+  width: '100%',
+});
 
 export const StyledTable = styled(Table)({
   width: '100%',
@@ -49,15 +56,20 @@ export const StyledHeaderCell = styled(TableCell)(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
 }));
 
-export const StyledTableRow = styled(TableRow)(({ theme }) => ({
+export const StyledTableRow = styled(TableRow, {
+  shouldForwardProp: (prop) => prop !== 'pending',
+})<{ pending?: boolean }>(({ theme, pending }) => ({
   height: ROW_HEIGHT,
+  opacity: pending ? 0.5 : 1,
+  pointerEvents: pending ? 'none' : 'auto',
+  transition: theme.transitions.create('opacity'),
 
   '&:last-child td': {
     borderBottom: 0,
   },
 
   '&:hover': {
-    backgroundColor: theme.palette.grey[50],
+    backgroundColor: pending ? 'transparent' : theme.palette.grey[50],
   },
 }));
 
@@ -148,4 +160,20 @@ export const DeleteButton = styled(IconButton)(({ theme }) => ({
     color: theme.palette.error.main,
     backgroundColor: theme.palette.error[100],
   },
+}));
+
+export const StyledPaginationWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  width: '100%',
+  padding: '12px 0',
+  borderTop: `1px solid ${theme.palette.divider}`,
+}));
+
+export const StyledPagination = styled(Pagination)({});
+
+export const SkeletonCell = styled(TableCell)(({ theme }) => ({
+  height: ROW_HEIGHT,
+  verticalAlign: 'middle',
+  borderBottom: `1px solid ${theme.palette.divider}`,
 }));

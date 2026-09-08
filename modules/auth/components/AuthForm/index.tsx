@@ -1,8 +1,16 @@
 'use client';
+
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import {
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
+
 import { loginSchema, registerSchema } from '../../schemas';
 import { authApi } from '../../api';
 import { CURRENT_USER } from '@/modules/user/api/queries';
@@ -18,12 +26,14 @@ import {
   ErrorContainer,
 } from './auth-form-styles';
 import { AuthRoutes } from '../../enums';
+import { Role } from '@/modules/common/enums/role';
 
 type AuthMode = 'login' | 'register';
 
 type AuthFormValues = {
   email: string;
   password: string;
+  role?: Role;
 };
 
 type Props = {
@@ -52,12 +62,16 @@ export function AuthForm({ mode }: Props) {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<AuthFormValues>({
     resolver: zodResolver(config.schema),
     defaultValues: {
       email: '',
       password: '',
+      ...(mode === 'register' && {
+        role: Role.User,
+      }),
     },
   });
 
@@ -68,10 +82,22 @@ export function AuthForm({ mode }: Props) {
       return;
     }
 
+    const input =
+      mode === 'register'
+        ? {
+            email: values.email,
+            password: values.password,
+            role: values.role,
+          }
+        : {
+            email: values.email,
+            password: values.password,
+          };
+
     try {
       await mutate({
         variables: {
-          input: values,
+          input,
         },
         refetchQueries: [{ query: CURRENT_USER }],
         awaitRefetchQueries: true,
@@ -114,6 +140,34 @@ export function AuthForm({ mode }: Props) {
           />
         </FieldGroup>
 
+        {mode === 'register' && (
+          <FieldGroup>
+            <Label>{t('register.role')}</Label>
+
+            <Controller
+              name='role'
+              control={control}
+              render={({ field }) => (
+                <FormControl>
+                  <RadioGroup row {...field} value={field.value ?? Role.User}>
+                    <FormControlLabel
+                      value={Role.User}
+                      control={<Radio />}
+                      label={t('register.userRole')}
+                    />
+
+                    <FormControlLabel
+                      value={Role.Admin}
+                      control={<Radio />}
+                      label={t('register.adminRole')}
+                    />
+                  </RadioGroup>
+                </FormControl>
+              )}
+            />
+          </FieldGroup>
+        )}
+
         <SubmitButton
           type='submit'
           variant='contained'
@@ -123,6 +177,7 @@ export function AuthForm({ mode }: Props) {
           {t(`${mode}.submit`)}
         </SubmitButton>
       </Form>
+
       <Switch>
         {t(`${mode}.switch`)}{' '}
         <SwitchLink href={config.switchPath}>

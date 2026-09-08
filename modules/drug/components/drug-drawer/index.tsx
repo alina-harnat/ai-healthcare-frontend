@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 
 import type { Drug } from '../../types';
+import type { DrugFormValues } from '../../schemas';
 import { DrugFormSkeleton } from '../drug-form skeleton';
 import { useDrugForm } from '../../hooks';
 import {
@@ -28,7 +29,9 @@ interface DrugDrawerProps {
   open: boolean;
   drug?: Drug | null;
   onClose: () => void;
-  onCreated: () => void;
+  onCreate: (values: DrugFormValues) => void;
+  onCreated: (drug: Drug) => void;
+  onCreateError: () => void;
   onUpdated: (drug: Drug) => void;
 }
 
@@ -36,7 +39,9 @@ export const DrugDrawer = ({
   open,
   drug,
   onClose,
+  onCreate,
   onCreated,
+  onCreateError,
   onUpdated,
 }: DrugDrawerProps) => {
   const { t } = useTranslation(DRUG_LOCALE);
@@ -45,7 +50,9 @@ export const DrugDrawer = ({
     open,
     drug,
     onClose,
+    onCreate,
     onCreated,
+    onCreateError,
     onUpdated,
   });
 

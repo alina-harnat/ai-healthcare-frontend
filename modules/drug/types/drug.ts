@@ -8,4 +8,5 @@ export type Drug = {
   dosage: string;
   sideEffects: string[];
   activeIngredients: string[];
+  pending?: boolean;
 };

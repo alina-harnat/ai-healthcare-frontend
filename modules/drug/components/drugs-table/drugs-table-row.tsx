@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material';
+import { CircularProgress, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { DRUG_LOCALE } from '../../constants';
 import EditIcon from '@mui/icons-material/Edit';
@@ -26,9 +26,14 @@ export const DrugsTableRow = ({
   onDelete,
 }: DrugsTableRowProps) => {
   const { t } = useTranslation(DRUG_LOCALE);
+  const pending = !!drug.pending;
 
   return (
-    <StyledTableRow onClick={() => onEdit(drug)} sx={{ cursor: 'pointer' }}>
+    <StyledTableRow
+      pending={pending}
+      onClick={() => !pending && onEdit(drug)}
+      sx={{ cursor: pending ? 'default' : 'pointer' }}
+    >
       {TABLE_COLUMNS.map((column) => (
         <StyledTableCell key={column.key}>
           {column.render(drug)}
@@ -36,29 +41,35 @@ export const DrugsTableRow = ({
       ))}
 
       <ActionsCell>
-        <Tooltip title={t('table.edit')}>
-          <EditButton
-            size='small'
-            onClick={(event) => {
-              event.stopPropagation();
-              onEdit(drug);
-            }}
-          >
-            <EditIcon fontSize='small' />
-          </EditButton>
-        </Tooltip>
+        {pending ? (
+          <CircularProgress size={18} />
+        ) : (
+          <>
+            <Tooltip title={t('table.edit')}>
+              <EditButton
+                size='small'
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onEdit(drug);
+                }}
+              >
+                <EditIcon fontSize='small' />
+              </EditButton>
+            </Tooltip>
 
-        <Tooltip title={t('table.delete')}>
-          <DeleteButton
-            size='small'
-            onClick={(event) => {
-              event.stopPropagation();
-              onDelete(drug);
-            }}
-          >
-            <DeleteIcon fontSize='small' />
-          </DeleteButton>
-        </Tooltip>
+            <Tooltip title={t('table.delete')}>
+              <DeleteButton
+                size='small'
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onDelete(drug);
+                }}
+              >
+                <DeleteIcon fontSize='small' />
+              </DeleteButton>
+            </Tooltip>
+          </>
+        )}
       </ActionsCell>
     </StyledTableRow>
   );

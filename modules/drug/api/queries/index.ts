@@ -70,6 +70,7 @@ export const CREATE_DRUG: TypedDocumentNode<
 > = gql`
   mutation CreateDrug($input: CreateDrugInput!) {
     createDrug(input: $input) {
+      id
       name
       brand
       description

@@ -1,6 +1,5 @@
 import { styled } from '@mui/material/styles';
 import {
-  Chip,
   Drawer,
   List,
   ListItem,
@@ -91,11 +90,16 @@ export const UserContainer = styled(Box, {
   justifyContent: open ? 'initial' : 'center',
   gap: 12,
   minHeight: 48,
-  marginBottom: 24,
   padding: open ? '0 16px' : '0 8px',
   overflow: 'hidden',
   color: theme.palette.text.secondary,
 }));
+
+export const UserInfoWrapper = styled(Box)({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+});
 
 export const UserIcon = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -115,6 +119,7 @@ export const UserEmail = styled(Typography)(({ theme }) => ({
   whiteSpace: 'nowrap',
   fontSize: 14,
   color: theme.palette.text.secondary,
+  cursor: 'default',
 }));
 
 export const StyledList = styled(List)({
@@ -192,4 +197,17 @@ export const StyledListItemText = styled(ListItemText, {
   '& .MuiTypography-root': {
     fontWeight: isActive ? 600 : 400,
   },
+}));
+
+export const SidebarWrapper = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+});
+
+export const DividerStyled = styled('hr')(({ theme }) => ({
+  margin: '0 16px',
+  border: 'none',
+  borderTop: `1px solid ${theme.palette.divider}`,
+  opacity: 0.6,
 }));
