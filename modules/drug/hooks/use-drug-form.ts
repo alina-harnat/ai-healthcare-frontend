@@ -47,9 +47,6 @@ export const useDrugForm = ({
   const [updateDrug, { loading: updating, error: updateError }] =
     drugApi.useUpdateDrugMutation();
 
-  const [generateDrug, { loading: generating, error: generateError }] =
-    drugApi.useGenerateDrugMutation();
-
   const loading = creating || updating;
   const error = createError ?? updateError;
 
@@ -73,24 +70,6 @@ export const useDrugForm = ({
         : EMPTY_VALUES,
     );
   }, [open, drug, reset]);
-
-  const handleGenerate = async (prompt: string) => {
-    if (generating) {
-      return;
-    }
-
-    const { data } = await generateDrug({
-      variables: {
-        input: {
-          input: prompt,
-        },
-      },
-    });
-
-    if (data?.generateDrug) {
-      reset(data.generateDrug);
-    }
-  };
 
   const onSubmit = async (values: DrugFormValues) => {
     if (isEditMode && drug) {
@@ -127,10 +106,7 @@ export const useDrugForm = ({
     form,
     isEditMode,
     loading,
-    generating,
     error,
-    generateError,
-    handleGenerate,
     onSubmit: handleSubmit(onSubmit),
   };
 };

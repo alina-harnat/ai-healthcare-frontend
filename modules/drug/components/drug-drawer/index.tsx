@@ -6,7 +6,6 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import type { Drug } from '../../types';
 import { DrugFormSkeleton } from '../drug-form skeleton';
-import { DrugAiGenerator } from '../ai-drug-generator';
 import { useDrugForm } from '../../hooks';
 import {
   GeneralInfoSection,
@@ -42,16 +41,7 @@ export const DrugDrawer = ({
 }: DrugDrawerProps) => {
   const { t } = useTranslation(DRUG_LOCALE);
 
-  const {
-    form,
-    isEditMode,
-    loading,
-    generating,
-    error,
-    generateError,
-    handleGenerate,
-    onSubmit,
-  } = useDrugForm({
+  const { form, isEditMode, loading, onSubmit } = useDrugForm({
     open,
     drug,
     onClose,
@@ -73,15 +63,7 @@ export const DrugDrawer = ({
 
       <FormProvider {...form}>
         <DrawerBody onSubmit={onSubmit}>
-          {!isEditMode && (
-            <DrugAiGenerator
-              generating={generating}
-              error={generateError?.message}
-              onGenerate={handleGenerate}
-            />
-          )}
-
-          {generating ? (
+          {loading ? (
             <DrugFormSkeleton />
           ) : (
             <>
@@ -95,15 +77,11 @@ export const DrugDrawer = ({
       </FormProvider>
 
       <DrawerFooter>
-        <CancelButton onClick={onClose} disabled={loading || generating}>
+        <CancelButton onClick={onClose} disabled={loading}>
           {t('page.cancel')}
         </CancelButton>
 
-        <SubmitButton
-          variant='contained'
-          disabled={loading || generating}
-          onClick={onSubmit}
-        >
+        <SubmitButton variant='contained' disabled={loading} onClick={onSubmit}>
           {isEditMode ? t('drawer.save') : t('drawer.create')}
         </SubmitButton>
       </DrawerFooter>
