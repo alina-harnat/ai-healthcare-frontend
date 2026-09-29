@@ -1,6 +1,6 @@
 import { Button, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import NextLink from 'next/link';
+import { Link } from '@/core/localization/navigation';
 
 export const AuthCard = styled('section')(({ theme }) => ({
   width: '100%',
@@ -101,7 +101,7 @@ export const Switch = styled('div')(({ theme }) => ({
   fontSize: '0.875rem',
 }));
 
-export const SwitchLink = styled(NextLink)(({ theme }) => ({
+export const SwitchLink = styled(Link)(({ theme }) => ({
   color: theme.palette.primary[500],
   fontWeight: 600,
   textDecoration: 'none',

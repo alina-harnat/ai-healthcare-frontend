@@ -1,10 +1,9 @@
 import { getRequestConfig } from 'next-intl/server';
 
 import { resources } from './resources';
+import { locales, type Locale } from './locales';
 
-export const locales = ['en', 'uk'] as const;
-
-export type Locale = (typeof locales)[number];
+export { locales, type Locale } from './locales';
 
 const DEFAULT_LOCALE: Locale = 'en';
 
@@ -22,6 +21,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: resources[locale],
+    messages: resources[locale] ?? resources.en ?? {},
   };
 });

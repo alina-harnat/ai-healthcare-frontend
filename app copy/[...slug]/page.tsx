@@ -2,7 +2,8 @@ import { layouts } from '../../core/router/layouts';
 import { routeService } from '../../core/router/services';
 import { userService } from '../../modules/user/services';
 
-import { redirect } from 'next/navigation';
+import { redirect } from '@/core/localization/navigation';
+import { getLocale } from 'next-intl/server';
 
 type PageProps = {
   params: Promise<{
@@ -25,7 +26,7 @@ export default async function DynamicPage({ params }: PageProps) {
   const redirectPath = routeService.getRedirectPath(route, currentUser);
 
   if (redirectPath) {
-    redirect(redirectPath);
+    redirect({ href: redirectPath, locale: await getLocale() });
   }
 
   const LayoutComponent = layouts[route.meta.layout];

@@ -1,9 +1,9 @@
 'use client';
 import { DRUG_LOCALE } from '../../constants';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/core/localization/navigation';
 import { IconButton, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 import {
   IdentifyStep,
@@ -15,7 +15,7 @@ import {
 import { useGenerateDrugPage, GenerateDrugStep } from '../../hooks';
 
 export function GenerateDrugPage() {
-  const { t } = useTranslation(DRUG_LOCALE);
+  const t = useTranslations(DRUG_LOCALE);
   const router = useRouter();
 
   const {

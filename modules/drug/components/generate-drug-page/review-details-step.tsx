@@ -1,7 +1,7 @@
 'use client';
 import { DRUG_LOCALE } from '../../constants';
 import { FormProvider, type UseFormReturn } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 import { ErrorChip } from '@/modules/common/components';
 import type { DrugFormValues } from '../../schemas';
@@ -36,7 +36,7 @@ export const ReviewDetailsStep = ({
   error,
   onCreate,
 }: ReviewDetailsStepProps) => {
-  const { t } = useTranslation(DRUG_LOCALE);
+  const t = useTranslations(DRUG_LOCALE);
 
   if (generating) {
     return <DrugFormSkeleton />;

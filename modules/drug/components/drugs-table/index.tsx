@@ -2,7 +2,7 @@
 
 import { DRUG_LOCALE } from '../../constants';
 import { Skeleton, TableBody, TableHead, TableRow } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import type { Drug } from '../../types';
 
 import { TABLE_COLUMNS } from './drugs-table-columns';
@@ -39,7 +39,7 @@ export const DrugsTable = ({
   loading = false,
   onPageChange,
 }: DrugsTableProps) => {
-  const { t } = useTranslation(DRUG_LOCALE);
+  const t = useTranslations(DRUG_LOCALE);
 
   const totalPages = Math.max(page + (hasMore ? 2 : 1), 1);
 

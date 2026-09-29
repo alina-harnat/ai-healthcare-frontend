@@ -1,9 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/core/localization/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import {
   FormControl,
   FormControlLabel,
@@ -55,7 +55,7 @@ const authConfig = {
 
 export function AuthForm({ mode }: Props) {
   const router = useRouter();
-  const { t } = useTranslation('auth');
+  const t = useTranslations('auth');
 
   const config = authConfig[mode];
 

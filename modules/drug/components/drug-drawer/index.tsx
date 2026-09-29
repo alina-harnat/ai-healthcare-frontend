@@ -1,7 +1,7 @@
 'use client';
 import { DRUG_LOCALE } from '../../constants';
 import { FormProvider } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import CloseIcon from '@mui/icons-material/Close';
 
 import type { Drug } from '../../types';
@@ -44,7 +44,7 @@ export const DrugDrawer = ({
   onCreateError,
   onUpdated,
 }: DrugDrawerProps) => {
-  const { t } = useTranslation(DRUG_LOCALE);
+  const t = useTranslations(DRUG_LOCALE);
 
   const { form, isEditMode, loading, onSubmit } = useDrugForm({
     open,

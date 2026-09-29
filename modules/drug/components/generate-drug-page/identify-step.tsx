@@ -1,6 +1,6 @@
 'use client';
 import { DRUG_LOCALE } from '../../constants';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 import { ErrorChip } from '@/modules/common/components';
 import {
@@ -29,7 +29,7 @@ export const IdentifyStep = ({
   onPromptChange,
   onIdentify,
 }: IdentifyStepProps) => {
-  const { t } = useTranslation(DRUG_LOCALE);
+  const t = useTranslations(DRUG_LOCALE);
 
   return (
     <Section>

@@ -8,6 +8,7 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import { useCurrentUser } from '../../../user/providers';
+import { LocaleSwitcher } from '../locale-switcher';
 
 import {
   StyledDrawer,
@@ -90,6 +91,16 @@ export const Sidebar = () => {
 
         <Box sx={{ mt: 'auto' }}>
           <DividerStyled />
+          <Box
+            onClick={(event) => event.stopPropagation()}
+            sx={{
+              display: 'flex',
+              justifyContent: open ? 'flex-start' : 'center',
+              py: 1,
+            }}
+          >
+            <LocaleSwitcher compact={!open} />
+          </Box>
           <UserContainer
             open={open}
             onClick={(event) => event.stopPropagation()}

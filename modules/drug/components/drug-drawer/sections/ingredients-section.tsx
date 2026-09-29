@@ -1,7 +1,7 @@
 'use client';
 import { DRUG_LOCALE } from '../../../constants';
 import { Controller, useFormContext } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import ScienceOutlinedIcon from '@mui/icons-material/ScienceOutlined';
 
 import type { DrugFormValues } from '../../../schemas';
@@ -9,7 +9,7 @@ import { ChipArrayField } from '../chip-array-field';
 import { Section, SectionHeader, SectionTitle } from '../drug-drawer-styles';
 
 export const IngredientsSection = () => {
-  const { t } = useTranslation(DRUG_LOCALE);
+  const t = useTranslations(DRUG_LOCALE);
 
   const {
     control,

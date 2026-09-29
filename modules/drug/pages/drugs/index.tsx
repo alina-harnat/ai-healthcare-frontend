@@ -125,7 +125,7 @@ export function DrugsPage() {
         <DialogContent>
           <DialogContentText>
             {t('page.deleteConfirmation', {
-              name: deletingDrug?.name,
+              name: deletingDrug?.name ?? '',
             })}
           </DialogContentText>
 

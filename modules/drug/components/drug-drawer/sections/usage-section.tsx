@@ -1,7 +1,7 @@
 'use client';
 import { DRUG_LOCALE } from '../../../constants';
 import { Controller, useFormContext } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import MedicationOutlinedIcon from '@mui/icons-material/MedicationOutlined';
 
 import type { DrugFormValues } from '../../../schemas';
@@ -16,7 +16,7 @@ import {
 } from '../drug-drawer-styles';
 
 export const UsageSection = () => {
-  const { t } = useTranslation(DRUG_LOCALE);
+  const t = useTranslations(DRUG_LOCALE);
 
   const {
     control,

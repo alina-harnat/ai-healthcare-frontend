@@ -25,7 +25,11 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider messages={messages}>
-      {children}
+      <GraphQLProvider>
+        <CurrentUserProvider>
+          <MuiProvider>{children}</MuiProvider>
+        </CurrentUserProvider>
+      </GraphQLProvider>
     </NextIntlClientProvider>
   );
 }

@@ -1,5 +1,5 @@
 import { CircularProgress, Tooltip } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import { DRUG_LOCALE } from '../../constants';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -25,7 +25,7 @@ export const DrugsTableRow = ({
   onEdit,
   onDelete,
 }: DrugsTableRowProps) => {
-  const { t } = useTranslation(DRUG_LOCALE);
+  const t = useTranslations(DRUG_LOCALE);
   const pending = !!drug.pending;
 
   return (

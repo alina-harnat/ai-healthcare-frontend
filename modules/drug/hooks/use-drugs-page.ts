@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
+import { useRouter } from '@/core/localization/navigation';
+import { useTranslations } from 'next-intl';
 
 import { DRUG_LOCALE } from '../constants';
 import { useTablePageSize } from '@/modules/common/hooks';
@@ -22,7 +22,7 @@ const MAX_PAGE_SIZE = 25;
 const RESERVED_HEIGHT = 260;
 
 export const useDrugsPage = () => {
-  const { t } = useTranslation(DRUG_LOCALE);
+  const t = useTranslations(DRUG_LOCALE);
   const router = useRouter();
 
   const [searchText, setSearchText] = useState('');

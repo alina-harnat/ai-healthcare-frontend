@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/core/localization/navigation';
 
 import { drugApi } from '../api';
 import { drugSchema, type DrugFormValues } from '../schemas';
