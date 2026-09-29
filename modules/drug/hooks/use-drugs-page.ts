@@ -14,6 +14,7 @@ import { drugApi } from '../api';
 import type { Drug } from '../types';
 import type { DrugFormValues } from '../schemas';
 import { useHasPermissions } from '@/modules/common/hooks/use-permissions';
+import { drugSubscriptionApi } from '../real-time';
 
 const DEBOUNCE_DELAY_MS = 500;
 const MIN_PAGE_SIZE = 5;
@@ -51,6 +52,21 @@ export const useDrugsPage = () => {
 
   const [deleteDrugFn, { loading: deleting, error: deleteError }] =
     drugApi.useDeleteDrugMutation();
+
+  drugSubscriptionApi.useDrugCreatedSubscription({
+    onData: ({ data }) => {
+      if (!data.data?.drugCreated) {
+        return;
+      }
+
+      setPage(0);
+      fetchDrugs(0, searchText);
+    },
+
+    onError: (error) => {
+      console.error('DRUG SUBSCRIPTION ERROR:', error);
+    },
+  });
 
   const fetchDrugs = useCallback(
     async (requestPage: number, search: string) => {

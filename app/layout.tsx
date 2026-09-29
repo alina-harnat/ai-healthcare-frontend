@@ -9,13 +9,11 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     <html>
       <body>
         <AppRouterCacheProvider>
-          <LocalizationProvider>
-            <GraphQLProvider>
-              <CurrentUserProvider>
-                <MuiProvider>{children}</MuiProvider>
-              </CurrentUserProvider>
-            </GraphQLProvider>
-          </LocalizationProvider>
+          <GraphQLProvider>
+            <CurrentUserProvider>
+              <MuiProvider>{children}</MuiProvider>
+            </CurrentUserProvider>
+          </GraphQLProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
