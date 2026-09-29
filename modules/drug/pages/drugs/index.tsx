@@ -24,7 +24,7 @@ import {
 import { useDrugsPage } from '../../hooks';
 import { Permission } from '@/modules/common/enums';
 
-export default function DrugsPage() {
+export function DrugsPage() {
   const {
     t,
     searchText,

@@ -14,7 +14,7 @@ import {
 } from '../../components';
 import { useGenerateDrugPage, GenerateDrugStep } from '../../hooks';
 
-export default function GenerateDrugPage() {
+export function GenerateDrugPage() {
   const { t } = useTranslation(DRUG_LOCALE);
   const router = useRouter();
 
