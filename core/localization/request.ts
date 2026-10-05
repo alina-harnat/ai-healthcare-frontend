@@ -2,10 +2,7 @@ import { getRequestConfig } from 'next-intl/server';
 
 import { resources } from './resources';
 import { locales, type Locale } from './locales';
-
-export { locales, type Locale } from './locales';
-
-const DEFAULT_LOCALE: Locale = 'en';
+import { DEFAULT_LOCALE } from './constants';
 
 function isLocale(value: string): value is Locale {
   return locales.includes(value as Locale);
