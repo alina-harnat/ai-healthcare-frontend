@@ -1,6 +1,12 @@
 import { useMutation } from '@apollo/client/react';
 
-import { REGISTER, LOGIN, LOGOUT } from './queries';
+import {
+  LOGIN,
+  LOGOUT,
+  REGISTER,
+  REQUEST_LOGIN_EMAIL_CODE,
+  VERIFY_LOGIN_TWO_FACTOR,
+} from './queries';
 
 export const authApi = {
   useRegisterMutation() {
@@ -9,6 +15,14 @@ export const authApi = {
 
   useLoginMutation() {
     return useMutation(LOGIN);
+  },
+
+  useRequestLoginEmailCodeMutation() {
+    return useMutation(REQUEST_LOGIN_EMAIL_CODE);
+  },
+
+  useVerifyLoginTwoFactorMutation() {
+    return useMutation(VERIFY_LOGIN_TWO_FACTOR);
   },
 
   useLogoutMutation() {

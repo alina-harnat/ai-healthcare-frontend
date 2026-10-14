@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { GraphQLProvider } from '@/core/api/providers';
 import { MuiProvider } from '@/core/theme/providers';
-import { locales } from '@/core/localization/request';
+import { locales } from '@/core/localization/locales';
 import { CurrentUserProvider } from '@/modules/user/providers';
 
 type Props = {

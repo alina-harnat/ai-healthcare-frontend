@@ -6,6 +6,8 @@ import { Box, Tooltip } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SecurityIcon from '@mui/icons-material/Security';
+import { Link, usePathname } from '@/core/localization/navigation';
 
 import { useCurrentUser } from '../../../user/providers';
 import { LocaleSwitcher } from '../locale-switcher';
@@ -33,11 +35,18 @@ const MENU_ITEMS = [
   {
     text: 'Drugs',
     icon: <DashboardIcon />,
+    href: '/drugs',
+  },
+  {
+    text: 'Security',
+    icon: <SecurityIcon />,
+    href: '/settings/security',
   },
 ];
 
 export const Sidebar = () => {
   const { currentUser } = useCurrentUser();
+  const pathname = usePathname();
   const [hovered, setHovered] = useState(false);
   const [clicked, setClicked] = useState(false);
 
@@ -67,22 +76,32 @@ export const Sidebar = () => {
           <DividerStyled />
 
           <StyledList onClick={(event) => event.stopPropagation()}>
-            {MENU_ITEMS.map((item, index) => {
-              const isActive = index === 0;
+            {MENU_ITEMS.map((item) => {
+              const isActive =
+                pathname === item.href || pathname.startsWith(`${item.href}/`);
 
               return (
                 <StyledListItem key={item.text} disablePadding>
-                  <StyledListItemButton isActive={isActive} isOpen={open}>
-                    <StyledListItemIcon isActive={isActive} isOpen={open}>
-                      {item.icon}
-                    </StyledListItemIcon>
+                  <Link
+                    href={item.href}
+                    style={{
+                      color: 'inherit',
+                      display: 'block',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <StyledListItemButton isActive={isActive} isOpen={open}>
+                      <StyledListItemIcon isActive={isActive} isOpen={open}>
+                        {item.icon}
+                      </StyledListItemIcon>
 
-                    <StyledListItemText
-                      primary={item.text}
-                      isOpen={open}
-                      isActive={isActive}
-                    />
-                  </StyledListItemButton>
+                      <StyledListItemText
+                        primary={item.text}
+                        isOpen={open}
+                        isActive={isActive}
+                      />
+                    </StyledListItemButton>
+                  </Link>
                 </StyledListItem>
               );
             })}

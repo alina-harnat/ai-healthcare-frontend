@@ -6,6 +6,26 @@
     "switch": "Don't have an account?",
     "switchAction": "Create account"
   },
+  "twoFactor": {
+    "title": "Verify your identity",
+    "description": "Choose a verification method to continue signing in.",
+    "totp": "Authenticator app",
+    "email": "Email",
+    "sendCode": "Send code",
+    "sendCodeSuccess": "If this email is registered, a verification code has been sent.",
+    "code": "Six-digit verification code",
+    "verify": "Verify and sign in",
+    "back": "Back to sign in",
+    "validation": "Enter the six-digit code.",
+    "genericError": "We could not complete sign in. Please try again.",
+    "invalidCredentials": "The email or password is incorrect.",
+    "rateLimited": "Too many attempts. Please wait before trying again.",
+    "invalidCode": "That verification code is incorrect. Try again.",
+    "requestCodeFirst": "Request an email verification code before continuing.",
+    "challengeExpired": "This sign-in verification has expired. Sign in again to continue.",
+    "methodUnavailable": "This verification method is no longer available. Sign in again to continue.",
+    "attemptsExceeded": "Too many verification attempts. Sign in again to continue."
+  },
   "register": {
     "email": "Email",
     "password": "Password",
@@ -18,6 +38,7 @@
   },
   "validation": {
     "email": "Please enter a valid email",
-    "password": "Password must be at least 8 characters"
+    "password": "Password must be at least 8 characters",
+    "twoFactorCode": "Enter the six-digit code."
   }
 }
