@@ -125,6 +125,10 @@ export const useDrugsPage = () => {
     router.push('/drugs/generate');
   };
 
+  const handleRecognizeDrug = () => {
+    router.push('/drugs/recognize');
+  };
+
   const handleEditDrug = (drug: Drug) => {
     setEditingDrug(drug);
     setDrawerOpen(true);
@@ -219,6 +223,7 @@ export const useDrugsPage = () => {
     handlePageChange,
     handleAddDrug,
     handleGenerateDrug,
+    handleRecognizeDrug,
     handleEditDrug,
     handleDrawerClose,
     handleDrugCreate,

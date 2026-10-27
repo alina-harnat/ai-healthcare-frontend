@@ -77,6 +77,29 @@ export interface IdentifyDrugMutationVariables {
   };
 }
 
+export type DrugRecognitionMimeType =
+  | 'image/jpeg'
+  | 'image/png'
+  | 'image/webp';
+
+export interface DrugRecognition {
+  medicine_name: string | null;
+  dosage: string | null;
+  active_ingredients: string[];
+  manufacturer: string | null;
+}
+
+export interface DrugRecognitionMutationResponse {
+  recognizeDrug: DrugRecognition;
+}
+
+export interface DrugRecognitionMutationVariables {
+  input: {
+    image: string;
+    mimeType: DrugRecognitionMimeType;
+  };
+}
+
 export interface GenerateDrugDetailsMutationResponse {
   generateDrugDetails: Omit<Drug, 'id'>;
 }

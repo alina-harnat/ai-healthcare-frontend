@@ -4,6 +4,7 @@
     "searchPlaceholder": "Type to search...",
     "addDrug": "Add drug",
     "generateDrug": "Generate",
+    "recognizeDrug": "Recognize from image",
     "loadingError": "Error loading drugs:",
     "createError": "Failed to add drug. Please try again.",
     "deleteTitle": "Delete drug",
@@ -78,5 +79,23 @@
     "reviewTitle": "Review generated drug",
     "create": "Create",
     "creating": "Creating..."
+  },
+  "recognition": {
+    "title": "Recognize a medicine",
+    "description": "Upload a clear image of the medicine packaging to identify it.",
+    "back": "Back to drugs",
+    "chooseImage": "Choose image",
+    "changeImage": "Choose another image",
+    "previewAlt": "Selected medicine image preview",
+    "unsupportedFile": "Choose a JPEG, PNG, or WebP image.",
+    "readError": "The image could not be read. Please choose it again.",
+    "recognize": "Recognize medicine",
+    "loading": "Recognizing...",
+    "resultTitle": "Recognition result",
+    "medicineName": "Medicine name",
+    "dosage": "Dosage",
+    "manufacturer": "Manufacturer",
+    "activeIngredients": "Active ingredients",
+    "notAvailable": "Not identified"
   }
 }

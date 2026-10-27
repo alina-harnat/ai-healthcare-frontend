@@ -1,0 +1,82 @@
+[
+  {
+    "id": "TC-001",
+    "title": "Recognize a medication from a supported JPEG photo",
+    "preconditions": "The recognition service is available. A clear JPEG photo of medication packaging is available with verified expected values for medicine name, dosage, manufacturer, and active ingredients.",
+    "steps": "1. Open the Drugs page.\n2. Select Recognize from image.\n3. Select the approved JPEG photo.\n4. Verify that the selected photo appears in the preview.\n5. Select Recognize medicine and wait for the request to complete.\n6. Compare the displayed result fields with the verified reference values.",
+    "expectedResult": "A recognition result is displayed with medicine name, dosage, manufacturer, and active ingredients. Identified values match the verified reference; active ingredients are displayed as a comma-separated list.",
+    "status": "Not Run"
+  },
+  {
+    "id": "TC-002",
+    "title": "Recognize medications from supported PNG and WebP photos",
+    "preconditions": "The recognition service is available. Clear PNG and WebP medication-package photos are available, each with verified expected result values.",
+    "steps": "1. Open the medication recognition page.\n2. Select the approved PNG photo, select Recognize medicine, and wait for completion.\n3. Compare the result with the PNG photo's verified reference values.\n4. Reload the recognition page to start a fresh attempt.\n5. Select the approved WebP photo, select Recognize medicine, and wait for completion.\n6. Compare the result with the WebP photo's verified reference values.",
+    "expectedResult": "Both image formats are accepted and analyzed. Each result matches the reference for the image used in that attempt and does not show values from the other image.",
+    "status": "Not Run"
+  },
+  {
+    "id": "TC-003",
+    "title": "Display a result when the medication cannot be identified",
+    "preconditions": "The recognition service is available. An approved photo has a verified no-identification response with medicine_name, dosage, and manufacturer set to null and active_ingredients set to an empty list.",
+    "steps": "1. Open the medication recognition page.\n2. Select the approved photo.\n3. Select Recognize medicine and wait for completion.\n4. Inspect all fields in the result.",
+    "expectedResult": "The result does not claim an unsupported medication identity. Medicine name, dosage, manufacturer, and active ingredients each display Not identified.",
+    "status": "Not Run"
+  },
+  {
+    "id": "TC-004",
+    "title": "Display identified and unidentified fields for a partial match",
+    "preconditions": "The recognition service is available. An approved photo and verified response are available with a mix of populated and empty result fields.",
+    "steps": "1. Open the medication recognition page.\n2. Select the approved partially readable photo.\n3. Select Recognize medicine and wait for completion.\n4. Compare medicine name, dosage, manufacturer, and active ingredients with the verified response.",
+    "expectedResult": "Each populated response value appears in its corresponding field. Null or empty values display Not identified, and values are not shown in a different field.",
+    "status": "Not Run"
+  },
+  {
+    "id": "TC-005",
+    "title": "Reject an unsupported image format",
+    "preconditions": "The user can access the medication recognition page. A file with MIME type image/gif is available, and the browser test setup permits providing it to the file input despite its supported-format filter.",
+    "steps": "1. Open the medication recognition page.\n2. Attempt to select the image/gif file.\n3. Observe the file preview, error message, and Recognize medicine control.",
+    "expectedResult": "The unsupported file is not retained as the selected image, no preview is shown, the unsupported-format message appears, and recognition remains disabled.",
+    "status": "Not Run"
+  },
+  {
+    "id": "TC-006",
+    "title": "Show a recognition service error and allow retry",
+    "preconditions": "A supported image is available. The recognition service can be arranged to return a known error on the first request and a verified result on a subsequent request.",
+    "steps": "1. Open the medication recognition page and select the supported image.\n2. Arrange for the next recognition request to fail.\n3. Select Recognize medicine and inspect the error state.\n4. Restore service availability and select Recognize medicine again.\n5. Inspect the completed result.",
+    "expectedResult": "The request error is displayed rather than a success result. The selected image remains available and recognition can be retried. The successful retry displays the verified medication result.",
+    "status": "Not Run"
+  },
+  {
+    "id": "TC-007",
+    "title": "Replace the selected photo after a recognition result",
+    "preconditions": "The recognition service is available. Two supported photos of different medications are available with verified expected results.",
+    "steps": "1. Select the first photo and recognize it.\n2. Verify that the first photo's result is displayed.\n3. Select Choose another image and select the second photo.\n4. Before submitting the second photo, verify the preview and result state.\n5. Recognize the second photo and compare the result with its verified reference.",
+    "expectedResult": "The preview updates to the second photo and the first result is cleared before the second request. The completed second result matches the second photo and contains no values left over from the first result.",
+    "status": "Not Run"
+  },
+  {
+    "id": "TC-008",
+    "title": "Show an error when the selected image cannot be read",
+    "preconditions": "A supported image is available. The browser test setup can cause the image-reading operation to fail.",
+    "steps": "1. Open the medication recognition page and select the supported image.\n2. Cause the image-reading operation to fail.\n3. Select Recognize medicine.\n4. Inspect the displayed error and the recognition control.",
+    "expectedResult": "The image-read error message is displayed, no recognition result is presented as successful, and the recognition control remains available because an image is selected.",
+    "status": "Not Run"
+  },
+  {
+    "id": "TC-009",
+    "title": "Show and enforce the in-progress recognition state",
+    "preconditions": "The recognition service can hold a request pending. A supported image is available.",
+    "steps": "1. Open the medication recognition page and select the supported image.\n2. Start recognition while the service response is held pending.\n3. Observe the recognition button and attempt to activate it again.\n4. Allow the service request to complete.",
+    "expectedResult": "While the request is pending, the button displays Recognizing... and is disabled so another request cannot be started. After completion, the returned result is displayed and the loading state ends.",
+    "status": "Not Run"
+  },
+  {
+    "id": "TC-010",
+    "title": "Prevent recognition before an image is selected",
+    "preconditions": "The user can access the medication recognition page and no image has been selected.",
+    "steps": "1. Open the medication recognition page.\n2. Observe the preview, result area, and Recognize medicine control.\n3. Attempt to activate Recognize medicine.",
+    "expectedResult": "No preview or recognition result is shown, and the Recognize medicine control is disabled until a supported image is selected.",
+    "status": "Not Run"
+  }
+]

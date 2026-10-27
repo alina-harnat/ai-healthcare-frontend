@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 
 import { DrugsTable, DrugDrawer } from '../../components';
 import {
@@ -44,6 +45,7 @@ export function DrugsPage() {
     handlePageChange,
     handleAddDrug,
     handleGenerateDrug,
+    handleRecognizeDrug,
     handleEditDrug,
     handleDrawerClose,
     handleDrugCreate,
@@ -77,6 +79,14 @@ export function DrugsPage() {
                 onClick={handleGenerateDrug}
               >
                 {t('page.generateDrug')}
+              </ActionButton>
+
+              <ActionButton
+                variant='outlined'
+                startIcon={<ImageSearchIcon />}
+                onClick={handleRecognizeDrug}
+              >
+                {t('page.recognizeDrug')}
               </ActionButton>
 
               <ActionButton

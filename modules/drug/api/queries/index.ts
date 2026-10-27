@@ -4,6 +4,8 @@ import type {
   GenerateDrugMutationVariables,
   IdentifyDrugMutationResponse,
   IdentifyDrugMutationVariables,
+  DrugRecognitionMutationResponse,
+  DrugRecognitionMutationVariables,
   GenerateDrugDetailsMutationResponse,
   GenerateDrugDetailsMutationVariables,
   CreateDrugMutationResponse,
@@ -42,6 +44,20 @@ export const IDENTIFY_DRUG: TypedDocumentNode<
     identifyDrug(input: $input) {
       name
       brand
+    }
+  }
+`;
+
+export const RECOGNIZE_DRUG: TypedDocumentNode<
+  DrugRecognitionMutationResponse,
+  DrugRecognitionMutationVariables
+> = gql`
+  mutation RecognizeDrug($input: DrugRecognitionInput!) {
+    recognizeDrug(input: $input) {
+      medicine_name
+      dosage
+      active_ingredients
+      manufacturer
     }
   }
 `;
