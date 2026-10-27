@@ -16,7 +16,59 @@ import type {
   UpdateDrugMutationVariables,
   DeleteDrugMutationResponse,
   DeleteDrugMutationVariables,
+  DetectObjectsMutationResponse,
+  DetectObjectsMutationVariables,
+  SearchSimilarDrugImagesQueryResponse,
+  SearchSimilarDrugImagesQueryVariables,
 } from '../../types';
+
+export const DETECT_OBJECTS: TypedDocumentNode<
+  DetectObjectsMutationResponse,
+  DetectObjectsMutationVariables
+> = gql`
+  mutation DetectObjects($input: ObjectDetectionInput!) {
+    detectObjects(input: $input) {
+      objects {
+        label
+        boundingBox {
+          yMin
+          xMin
+          yMax
+          xMax
+        }
+      }
+    }
+  }
+`;
+
+export const SEARCH_SIMILAR_DRUG_IMAGES: TypedDocumentNode<
+  SearchSimilarDrugImagesQueryResponse,
+  SearchSimilarDrugImagesQueryVariables
+> = gql`
+  query SearchSimilarDrugImages($input: DrugImageSearchInput!) {
+    searchSimilarDrugImages(input: $input) {
+      images {
+        id
+        drugId
+        imageUrl
+        mimeType
+        createdAt
+        similarityScore
+        drug {
+          id
+          name
+          brand
+          description
+          dosage
+          activeIngredients
+        }
+      }
+      limit
+      offset
+      hasMore
+    }
+  }
+`;
 
 export const GENERATE_DRUG: TypedDocumentNode<
   GenerateDrugMutationResponse,

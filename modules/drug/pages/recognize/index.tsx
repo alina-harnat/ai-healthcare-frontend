@@ -17,18 +17,15 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from '@/core/localization/navigation';
 import { DRUG_LOCALE } from '../../constants';
 import { drugApi } from '../../api';
-import type { DrugRecognition, DrugRecognitionMimeType } from '../../types';
+import type { DrugRecognition } from '../../types';
 import { PageContainer, PageHeader } from '../../components/generate-drug-page';
-
-const supportedMimeTypes = new Set<string>([
-  'image/jpeg',
-  'image/png',
-  'image/webp',
-]);
-
-const isSupportedMimeType = (
-  mimeType: string,
-): mimeType is DrugRecognitionMimeType => supportedMimeTypes.has(mimeType);
+import { DrugRoutes } from '../../enums';
+import {
+  ACCEPTED_IMAGE_TYPES,
+  getImageRequestErrorKey,
+  readFileAsBase64,
+  validateImageFile,
+} from '../../utils';
 
 export function RecognizeDrugPage() {
   const t = useTranslations(DRUG_LOCALE);
@@ -37,17 +34,17 @@ export function RecognizeDrugPage() {
   const [preview, setPreview] = useState('');
   const [result, setResult] = useState<DrugRecognition | null>(null);
   const [fileError, setFileError] = useState('');
-  const [recognizeDrug, { loading, error }] =
-    drugApi.useRecognizeDrugMutation();
+  const [recognizeDrug, { loading }] = drugApi.useRecognizeDrugMutation();
 
   const handleFileChange = (selected?: File) => {
     setResult(null);
     setFileError('');
     if (!selected) return;
-    if (!isSupportedMimeType(selected.type)) {
+    const validation = validateImageFile(selected);
+    if (validation.errorKey) {
       setFile(null);
       setPreview('');
-      setFileError(t('recognition.unsupportedFile'));
+      setFileError(t(validation.errorKey));
       return;
     }
     setFile(selected);
@@ -56,40 +53,32 @@ export function RecognizeDrugPage() {
 
   const handleRecognize = async () => {
     if (!file) return;
-    if (!isSupportedMimeType(file.type)) {
-      setFileError(t('recognition.unsupportedFile'));
+    const validation = validateImageFile(file);
+    if (validation.errorKey) {
+      setFileError(t(validation.errorKey));
+      return;
+    }
+
+    let image: string;
+    try {
+      image = await readFileAsBase64(file);
+    } catch {
+      setFileError(t('recognition.readError'));
       return;
     }
 
     try {
-      const image = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          if (typeof reader.result !== 'string') {
-            reject(new Error(t('recognition.readError')));
-            return;
-          }
-          resolve(reader.result.split(',')[1] ?? '');
-        };
-        reader.onerror = () =>
-          reject(reader.error ?? new Error(t('recognition.readError')));
-        reader.readAsDataURL(file);
-      });
       const response = await recognizeDrug({
         variables: {
           input: {
             image,
-            mimeType: file.type,
+            mimeType: validation.mimeType,
           },
         },
       });
       setResult(response.data?.recognizeDrug ?? null);
     } catch (recognitionError) {
-      setFileError(
-        recognitionError instanceof Error
-          ? recognitionError.message
-          : t('recognition.readError'),
-      );
+      setFileError(t(getImageRequestErrorKey(recognitionError)));
     }
   };
 
@@ -98,7 +87,7 @@ export function RecognizeDrugPage() {
       <PageHeader>
         <Button
           startIcon={<ArrowBackIcon />}
-          onClick={() => router.push('/drugs')}
+          onClick={() => router.push(DrugRoutes.Drugs)}
           size='small'
         >
           {t('recognition.back')}
@@ -123,7 +112,7 @@ export function RecognizeDrugPage() {
               <input
                 hidden
                 type='file'
-                accept='image/jpeg,image/png,image/webp'
+                accept={ACCEPTED_IMAGE_TYPES}
                 onChange={(event) => handleFileChange(event.target.files?.[0])}
               />
             </Button>
@@ -141,7 +130,6 @@ export function RecognizeDrugPage() {
               />
             )}
             {fileError && <Alert severity='error'>{fileError}</Alert>}
-            {error && <Alert severity='error'>{error.message}</Alert>}
             <Button
               variant='contained'
               onClick={handleRecognize}

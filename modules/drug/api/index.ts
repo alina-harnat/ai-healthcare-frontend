@@ -9,6 +9,8 @@ import {
   GET_DRUGS,
   UPDATE_DRUG,
   DELETE_DRUG,
+  DETECT_OBJECTS,
+  SEARCH_SIMILAR_DRUG_IMAGES,
 } from './queries';
 
 export const drugApi = {
@@ -42,5 +44,15 @@ export const drugApi = {
 
   useGetDrugsLazyQuery() {
     return useLazyQuery(GET_DRUGS);
+  },
+
+  useDetectObjectsMutation() {
+    return useMutation(DETECT_OBJECTS);
+  },
+
+  useSearchSimilarDrugImagesLazyQuery() {
+    return useLazyQuery(SEARCH_SIMILAR_DRUG_IMAGES, {
+      fetchPolicy: 'no-cache',
+    });
   },
 };

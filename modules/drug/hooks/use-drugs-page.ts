@@ -15,6 +15,7 @@ import type { Drug } from '../types';
 import type { DrugFormValues } from '../schemas';
 import { useHasPermissions } from '@/modules/common/hooks/use-permissions';
 import { drugSubscriptionApi } from '../real-time';
+import { DrugRoutes } from '../enums';
 
 const DEBOUNCE_DELAY_MS = 500;
 const MIN_PAGE_SIZE = 5;
@@ -129,6 +130,14 @@ export const useDrugsPage = () => {
     router.push('/drugs/recognize');
   };
 
+  const handleDetectObjects = () => {
+    router.push(DrugRoutes.DetectObjects);
+  };
+
+  const handleImageSearch = () => {
+    router.push(DrugRoutes.ImageSearch);
+  };
+
   const handleEditDrug = (drug: Drug) => {
     setEditingDrug(drug);
     setDrawerOpen(true);
@@ -224,6 +233,8 @@ export const useDrugsPage = () => {
     handleAddDrug,
     handleGenerateDrug,
     handleRecognizeDrug,
+    handleDetectObjects,
+    handleImageSearch,
     handleEditDrug,
     handleDrawerClose,
     handleDrugCreate,

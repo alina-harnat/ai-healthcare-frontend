@@ -5,6 +5,8 @@
     "addDrug": "Add drug",
     "generateDrug": "Generate",
     "recognizeDrug": "Recognize from image",
+    "detectObjects": "Detect objects",
+    "imageSearch": "Search by image",
     "loadingError": "Error loading drugs:",
     "createError": "Failed to add drug. Please try again.",
     "deleteTitle": "Delete drug",
@@ -97,5 +99,47 @@
     "manufacturer": "Manufacturer",
     "activeIngredients": "Active ingredients",
     "notAvailable": "Not identified"
+  },
+  "detection": {
+    "title": "Detect objects",
+    "description": "Upload an image to detect and outline the prominent objects in it.",
+    "back": "Back to drugs",
+    "chooseImage": "Choose image",
+    "changeImage": "Choose another image",
+    "previewAlt": "Selected image with detected objects",
+    "detect": "Detect objects",
+    "loading": "Detecting...",
+    "resultTitle": "{count, plural, one {# object detected} other {# objects detected}}",
+    "noObjects": "No objects were detected in this image.",
+    "unlabeled": "Unlabeled object"
+  },
+  "imageSearch": {
+    "title": "Search by image",
+    "description": "Upload a medicine image to find drugs with visually similar images.",
+    "back": "Back to drugs",
+    "chooseImage": "Choose image",
+    "changeImage": "Choose another image",
+    "previewAlt": "Selected search image preview",
+    "minSimilarity": "Minimum similarity: {value}%",
+    "search": "Search similar images",
+    "loading": "Searching...",
+    "resultTitle": "Similar drug images",
+    "noResults": "No similar drug images were found.",
+    "similarity": "{value}% match",
+    "dosage": "Dosage",
+    "activeIngredients": "Active ingredients",
+    "loadMore": "Load more"
+  },
+  "imageUpload": {
+    "unsupportedFile": "Choose a JPEG, PNG, or WebP image.",
+    "tooLarge": "The image must not exceed 5 MB.",
+    "readError": "The image could not be read. Please choose it again.",
+    "invalidImage": "The image data is invalid. Please choose another image.",
+    "mimeMismatch": "The file content does not match its image type. Please choose another image.",
+    "invalidParameters": "The request was rejected. Please check the image and try again.",
+    "forbidden": "You do not have permission to perform this action.",
+    "unauthenticated": "Your session has expired. Please sign in again.",
+    "tooManyRequests": "Too many requests. Please wait a minute and try again.",
+    "genericError": "Something went wrong. Please try again later."
   }
 }

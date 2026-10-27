@@ -77,10 +77,7 @@ export interface IdentifyDrugMutationVariables {
   };
 }
 
-export type DrugRecognitionMimeType =
-  | 'image/jpeg'
-  | 'image/png'
-  | 'image/webp';
+export type MimeType = 'Jpeg' | 'Png' | 'Webp';
 
 export interface DrugRecognition {
   medicine_name: string | null;
@@ -96,7 +93,70 @@ export interface DrugRecognitionMutationResponse {
 export interface DrugRecognitionMutationVariables {
   input: {
     image: string;
-    mimeType: DrugRecognitionMimeType;
+    mimeType: MimeType;
+  };
+}
+
+export interface BoundingBox {
+  yMin: number;
+  xMin: number;
+  yMax: number;
+  xMax: number;
+}
+
+export interface DetectedObject {
+  label: string;
+  boundingBox: BoundingBox;
+}
+
+export interface DetectObjectsMutationResponse {
+  detectObjects: {
+    objects: DetectedObject[];
+  };
+}
+
+export interface DetectObjectsMutationVariables {
+  input: {
+    image: string;
+    mimeType: MimeType;
+  };
+}
+
+export interface DrugImageDrug {
+  id: string;
+  name: string;
+  brand: string;
+  description: string;
+  dosage: string;
+  activeIngredients: string[];
+}
+
+export interface SimilarDrugImage {
+  id: string;
+  drugId: string;
+  imageUrl: string;
+  mimeType: string;
+  createdAt: string;
+  similarityScore: number;
+  drug: DrugImageDrug;
+}
+
+export interface SearchSimilarDrugImagesQueryResponse {
+  searchSimilarDrugImages: {
+    images: SimilarDrugImage[];
+    limit: number;
+    offset: number;
+    hasMore: boolean;
+  };
+}
+
+export interface SearchSimilarDrugImagesQueryVariables {
+  input: {
+    image: string;
+    mimeType: MimeType;
+    limit?: number;
+    offset?: number;
+    minSimilarityScore?: number;
   };
 }
 

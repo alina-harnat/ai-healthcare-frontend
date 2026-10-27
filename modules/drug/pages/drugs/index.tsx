@@ -11,6 +11,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import ImageSearchIcon from '@mui/icons-material/ImageSearch';
+import CropFreeIcon from '@mui/icons-material/CropFree';
 
 import { DrugsTable, DrugDrawer } from '../../components';
 import {
@@ -46,6 +47,8 @@ export function DrugsPage() {
     handleAddDrug,
     handleGenerateDrug,
     handleRecognizeDrug,
+    handleDetectObjects,
+    handleImageSearch,
     handleEditDrug,
     handleDrawerClose,
     handleDrugCreate,
@@ -71,8 +74,24 @@ export function DrugsPage() {
         />
 
         <Actions>
+          <ActionButton
+            variant='outlined'
+            startIcon={<ImageSearchIcon />}
+            onClick={handleImageSearch}
+          >
+            {t('page.imageSearch')}
+          </ActionButton>
+
           {hasPermission(Permission.Admin) && (
             <>
+              <ActionButton
+                variant='outlined'
+                startIcon={<CropFreeIcon />}
+                onClick={handleDetectObjects}
+              >
+                {t('page.detectObjects')}
+              </ActionButton>
+
               <ActionButton
                 variant='outlined'
                 startIcon={<AutoAwesomeIcon />}
