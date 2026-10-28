@@ -5,3 +5,4 @@ export * from './use-drugs-page';
 export * from './use-image-file';
 export * from './use-object-detection';
 export * from './use-image-search';
+export * from './use-drug-image-upload';

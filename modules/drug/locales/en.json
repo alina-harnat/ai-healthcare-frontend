@@ -130,6 +130,19 @@
     "activeIngredients": "Active ingredients",
     "loadMore": "Load more"
   },
+  "photoUpload": {
+    "title": "Photos",
+    "description": "Add a JPEG, PNG, or WebP photo of this drug (up to 5 MB). Each upload adds a new photo.",
+    "chooseImage": "Choose photo",
+    "changeImage": "Choose another photo",
+    "previewAlt": "Selected drug photo preview",
+    "upload": "Upload photo",
+    "uploading": "Uploading...",
+    "success": "Photo uploaded.",
+    "uploadedAlt": "Uploaded photo of {name}",
+    "expired": "Preview link expired",
+    "expiryNotice": "Previews are available for one hour after upload and are not shown again after the drawer is closed."
+  },
   "imageUpload": {
     "unsupportedFile": "Choose a JPEG, PNG, or WebP image.",
     "tooLarge": "The image must not exceed 5 MB.",
@@ -140,6 +153,9 @@
     "forbidden": "You do not have permission to perform this action.",
     "unauthenticated": "Your session has expired. Please sign in again.",
     "tooManyRequests": "Too many requests. Please wait a minute and try again.",
+    "drugNotFound": "This drug no longer exists. Refresh the list and try again.",
+    "invalidDrugId": "This drug has an invalid identifier and cannot receive photos.",
+    "processingFailed": "The image could not be processed. Please try again in a moment.",
     "genericError": "Something went wrong. Please try again later."
   }
 }

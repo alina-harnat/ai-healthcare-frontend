@@ -36,8 +36,16 @@ export const useImageFile = () => {
     return true;
   };
 
+  const clearFile = () => {
+    setFile(null);
+    setMimeType(null);
+    setPreview('');
+    setFileErrorKey(null);
+  };
+
   return {
     file,
+    clearFile,
     mimeType,
     preview,
     fileErrorKey,

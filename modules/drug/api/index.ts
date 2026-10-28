@@ -11,6 +11,7 @@ import {
   DELETE_DRUG,
   DETECT_OBJECTS,
   SEARCH_SIMILAR_DRUG_IMAGES,
+  UPLOAD_DRUG_IMAGE,
 } from './queries';
 
 export const drugApi = {
@@ -48,6 +49,10 @@ export const drugApi = {
 
   useDetectObjectsMutation() {
     return useMutation(DETECT_OBJECTS);
+  },
+
+  useUploadDrugImageMutation() {
+    return useMutation(UPLOAD_DRUG_IMAGE);
   },
 
   useSearchSimilarDrugImagesLazyQuery() {

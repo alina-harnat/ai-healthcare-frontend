@@ -8,6 +8,9 @@ import type { Drug } from '../../types';
 import type { DrugFormValues } from '../../schemas';
 import { DrugFormSkeleton } from '../drug-form skeleton';
 import { useDrugForm } from '../../hooks';
+import { useHasPermissions } from '@/modules/common/hooks/use-permissions';
+import { Permission } from '@/modules/common/enums';
+import { DrugImageUpload } from '../drug-image-upload';
 import {
   GeneralInfoSection,
   UsageSection,
@@ -46,6 +49,8 @@ export const DrugDrawer = ({
 }: DrugDrawerProps) => {
   const t = useTranslations(DRUG_LOCALE);
 
+  const { hasPermission } = useHasPermissions();
+
   const { form, isEditMode, loading, onSubmit } = useDrugForm({
     open,
     drug,
@@ -78,6 +83,9 @@ export const DrugDrawer = ({
               <UsageSection />
               <SafetySection />
               <IngredientsSection />
+              {isEditMode && drug && hasPermission(Permission.Admin) && (
+                <DrugImageUpload key={drug.id} drugId={drug.id} />
+              )}
             </>
           )}
         </DrawerBody>

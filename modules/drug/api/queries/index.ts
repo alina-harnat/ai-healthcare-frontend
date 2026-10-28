@@ -20,7 +20,32 @@ import type {
   DetectObjectsMutationVariables,
   SearchSimilarDrugImagesQueryResponse,
   SearchSimilarDrugImagesQueryVariables,
+  UploadDrugImageMutationResponse,
+  UploadDrugImageMutationVariables,
 } from '../../types';
+
+export const UPLOAD_DRUG_IMAGE: TypedDocumentNode<
+  UploadDrugImageMutationResponse,
+  UploadDrugImageMutationVariables
+> = gql`
+  mutation UploadDrugImage($input: UploadDrugImageInput!) {
+    uploadDrugImage(input: $input) {
+      id
+      drugId
+      imageUrl
+      mimeType
+      createdAt
+      drug {
+        id
+        name
+        brand
+        description
+        dosage
+        activeIngredients
+      }
+    }
+  }
+`;
 
 export const DETECT_OBJECTS: TypedDocumentNode<
   DetectObjectsMutationResponse,

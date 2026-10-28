@@ -160,6 +160,27 @@ export interface SearchSimilarDrugImagesQueryVariables {
   };
 }
 
+export interface DrugImage {
+  id: string;
+  drugId: string;
+  imageUrl: string;
+  mimeType: string;
+  createdAt: string;
+  drug: DrugImageDrug;
+}
+
+export interface UploadDrugImageMutationResponse {
+  uploadDrugImage: DrugImage;
+}
+
+export interface UploadDrugImageMutationVariables {
+  input: {
+    drugId: string;
+    image: string;
+    mimeType: MimeType;
+  };
+}
+
 export interface GenerateDrugDetailsMutationResponse {
   generateDrugDetails: Omit<Drug, 'id'>;
 }

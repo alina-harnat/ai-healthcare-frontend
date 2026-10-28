@@ -24,7 +24,35 @@ export type ImageErrorKey =
   | 'imageUpload.forbidden'
   | 'imageUpload.unauthenticated'
   | 'imageUpload.tooManyRequests'
+  | 'imageUpload.drugNotFound'
+  | 'imageUpload.invalidDrugId'
+  | 'imageUpload.processingFailed'
   | 'imageUpload.genericError';
+
+const OBJECT_ID_PATTERN = /^[a-f\d]{24}$/i;
+
+export const isObjectId = (value: string) => OBJECT_ID_PATTERN.test(value);
+
+const matchesBytes = (bytes: Uint8Array, signature: number[], offset = 0) =>
+  signature.every((byte, index) => bytes[offset + index] === byte);
+
+const SIGNATURE_CHECKS: Record<MimeType, (bytes: Uint8Array) => boolean> = {
+  Jpeg: (bytes) => matchesBytes(bytes, [0xff, 0xd8, 0xff]),
+  Png: (bytes) =>
+    matchesBytes(bytes, [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+  Webp: (bytes) =>
+    matchesBytes(bytes, [0x52, 0x49, 0x46, 0x46]) &&
+    matchesBytes(bytes, [0x57, 0x45, 0x42, 0x50], 8),
+};
+
+export const hasMatchingSignature = async (
+  file: File,
+  mimeType: MimeType,
+): Promise<boolean> => {
+  const header = new Uint8Array(await file.slice(0, 12).arrayBuffer());
+
+  return SIGNATURE_CHECKS[mimeType](header);
+};
 
 export type ImageFileValidation =
   | { mimeType: MimeType; errorKey?: undefined }
@@ -81,11 +109,15 @@ export const getImageRequestErrorKey = (error: unknown): ImageErrorKey => {
   if (message.includes('Too Many Requests') || code === 'TOO_MANY_REQUESTS') {
     return 'imageUpload.tooManyRequests';
   }
+  if (message.includes('was not found') || code === 'NOT_FOUND') {
+    return 'imageUpload.drugNotFound';
+  }
   if (code === 'FORBIDDEN') return 'imageUpload.forbidden';
   if (code === 'UNAUTHENTICATED') return 'imageUpload.unauthenticated';
   if (code === 'BAD_USER_INPUT' || code === 'BAD_REQUEST') {
     return 'imageUpload.invalidParameters';
   }
+  if (code === 'INTERNAL_SERVER_ERROR') return 'imageUpload.processingFailed';
 
   return 'imageUpload.genericError';
 };
