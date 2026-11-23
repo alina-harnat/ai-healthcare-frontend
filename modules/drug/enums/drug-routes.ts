@@ -4,4 +4,5 @@ export enum DrugRoutes {
   RecognizeDrug = '/drugs/recognize',
   DetectObjects = '/drugs/detect',
   ImageSearch = '/drugs/image-search',
+  UploadImage = '/drugs/upload-image',
 }

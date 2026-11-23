@@ -49,6 +49,7 @@ export function DrugsPage() {
     handleRecognizeDrug,
     handleDetectObjects,
     handleImageSearch,
+    handleUploadDrugImage,
     handleEditDrug,
     handleDrawerClose,
     handleDrugCreate,
@@ -132,6 +133,9 @@ export function DrugsPage() {
         drugs={drugs}
         onEdit={handleEditDrug}
         onDelete={handleDeleteDrug}
+        onUploadImage={
+          hasPermission(Permission.Admin) ? handleUploadDrugImage : undefined
+        }
         page={page}
         hasMore={hasMore}
         loading={initializing || loading}

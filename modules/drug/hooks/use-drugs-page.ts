@@ -138,6 +138,10 @@ export const useDrugsPage = () => {
     router.push(DrugRoutes.ImageSearch);
   };
 
+  const handleUploadDrugImage = (drug: Drug) => {
+    router.push(`${DrugRoutes.UploadImage}/${encodeURIComponent(drug.id)}`);
+  };
+
   const handleEditDrug = (drug: Drug) => {
     setEditingDrug(drug);
     setDrawerOpen(true);
@@ -235,6 +239,7 @@ export const useDrugsPage = () => {
     handleRecognizeDrug,
     handleDetectObjects,
     handleImageSearch,
+    handleUploadDrugImage,
     handleEditDrug,
     handleDrawerClose,
     handleDrugCreate,

@@ -5,7 +5,6 @@ import type { DrugImage } from '../types';
 import {
   getImageRequestErrorKey,
   hasMatchingSignature,
-  isObjectId,
   readFileAsBase64,
   type ImageErrorKey,
 } from '../utils';
@@ -21,8 +20,8 @@ export const useDrugImageUpload = (drugId?: string) => {
   const imageFile = useImageFile();
   const { file, mimeType, setFileErrorKey } = imageFile;
 
-  const [uploadedImages, setUploadedImages] = useState<UploadedDrugImage[]>(
-    [],
+  const [uploadedImage, setUploadedImage] = useState<UploadedDrugImage | null>(
+    null,
   );
   const [requestErrorKey, setRequestErrorKey] = useState<ImageErrorKey | null>(
     null,
@@ -34,12 +33,12 @@ export const useDrugImageUpload = (drugId?: string) => {
     drugApi.useUploadDrugImageMutation();
 
   useEffect(() => {
-    if (!uploadedImages.length) return;
+    if (!uploadedImage) return;
 
     const timer = setInterval(() => setNow(Date.now()), 60 * 1000);
 
     return () => clearInterval(timer);
-  }, [uploadedImages.length]);
+  }, [uploadedImage]);
 
   const loading = preparing || uploading;
 
@@ -48,12 +47,19 @@ export const useDrugImageUpload = (drugId?: string) => {
     imageFile.selectFile(selected);
   };
 
+  const handleClearSelection = () => {
+    if (loading) return;
+
+    setRequestErrorKey(null);
+    imageFile.clearFile();
+  };
+
   const handleUpload = async () => {
-    if (!drugId || !file || !mimeType || loading) return;
+    if (!file || !mimeType || loading) return;
 
     setRequestErrorKey(null);
 
-    if (!isObjectId(drugId)) {
+    if (!drugId?.trim()) {
       setRequestErrorKey('imageUpload.invalidDrugId');
       return;
     }
@@ -84,14 +90,17 @@ export const useDrugImageUpload = (drugId?: string) => {
 
       const uploaded = data?.uploadDrugImage;
 
-      if (!uploaded) return;
+      if (!uploaded) {
+        setRequestErrorKey('imageUpload.genericError');
+        return;
+      }
 
       const uploadedAt = Date.now();
       setNow(uploadedAt);
-      setUploadedImages((previous) => [
-        { ...uploaded, expiresAt: uploadedAt + SIGNED_URL_TTL_MS },
-        ...previous,
-      ]);
+      setUploadedImage({
+        ...uploaded,
+        expiresAt: uploadedAt + SIGNED_URL_TTL_MS,
+      });
       imageFile.clearFile();
     } catch (error) {
       setRequestErrorKey(getImageRequestErrorKey(error));
@@ -100,11 +109,12 @@ export const useDrugImageUpload = (drugId?: string) => {
 
   return {
     ...imageFile,
-    uploadedImages,
+    uploadedImage,
     now,
     loading,
     requestErrorKey,
     handleFileChange,
+    handleClearSelection,
     handleUpload,
   };
 };

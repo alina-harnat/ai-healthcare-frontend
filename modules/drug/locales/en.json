@@ -25,7 +25,8 @@
     "activeIngredients": "Active ingredients",
     "actions": "Actions",
     "edit": "Edit drug",
-    "delete": "Delete drug"
+    "delete": "Delete drug",
+    "uploadImage": "Upload image"
   },
   "drawer": {
     "editTitle": "Edit drug",
@@ -132,16 +133,20 @@
   },
   "photoUpload": {
     "title": "Photos",
-    "description": "Add a JPEG, PNG, or WebP photo of this drug (up to 5 MB). Each upload adds a new photo.",
+    "pageTitle": "Upload drug image",
+    "back": "Back to drugs",
+    "description": "Add a JPEG, PNG, or WebP photo of this drug (up to 5 MB).",
     "chooseImage": "Choose photo",
     "changeImage": "Choose another photo",
+    "clearSelection": "Remove selection",
+    "selectedFile": "Selected: {name}",
     "previewAlt": "Selected drug photo preview",
     "upload": "Upload photo",
     "uploading": "Uploading...",
     "success": "Photo uploaded.",
     "uploadedAlt": "Uploaded photo of {name}",
     "expired": "Preview link expired",
-    "expiryNotice": "Previews are available for one hour after upload and are not shown again after the drawer is closed."
+    "expiryNotice": "This preview link expires one hour after upload and is not stored in the app."
   },
   "imageUpload": {
     "unsupportedFile": "Choose a JPEG, PNG, or WebP image.",
@@ -156,6 +161,7 @@
     "drugNotFound": "This drug no longer exists. Refresh the list and try again.",
     "invalidDrugId": "This drug has an invalid identifier and cannot receive photos.",
     "processingFailed": "The image could not be processed. Please try again in a moment.",
+    "networkError": "Could not reach the server. Check your connection and try again.",
     "genericError": "Something went wrong. Please try again later."
   }
 }

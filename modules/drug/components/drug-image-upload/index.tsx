@@ -26,12 +26,15 @@ export const DrugImageUpload = ({ drugId }: DrugImageUploadProps) => {
     preview,
     fileErrorKey,
     requestErrorKey,
-    uploadedImages,
+    uploadedImage,
     now,
     loading,
     handleFileChange,
+    handleClearSelection,
     handleUpload,
   } = useDrugImageUpload(drugId);
+
+  const uploadedExpired = uploadedImage ? now >= uploadedImage.expiresAt : false;
 
   return (
     <Section>
@@ -44,13 +47,31 @@ export const DrugImageUpload = ({ drugId }: DrugImageUploadProps) => {
         {t('photoUpload.description')}
       </Typography>
 
-      <ImagePicker
-        label={
-          file ? t('photoUpload.changeImage') : t('photoUpload.chooseImage')
-        }
-        disabled={loading}
-        onChange={handleFileChange}
-      />
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+        <ImagePicker
+          label={
+            file ? t('photoUpload.changeImage') : t('photoUpload.chooseImage')
+          }
+          disabled={loading}
+          onChange={handleFileChange}
+        />
+        {file && (
+          <Button
+            type='button'
+            variant='text'
+            disabled={loading}
+            onClick={handleClearSelection}
+          >
+            {t('photoUpload.clearSelection')}
+          </Button>
+        )}
+      </Box>
+
+      {file && (
+        <Typography variant='body2' color='text.secondary'>
+          {t('photoUpload.selectedFile', { name: file.name })}
+        </Typography>
+      )}
 
       {preview && (
         <Box
@@ -71,6 +92,7 @@ export const DrugImageUpload = ({ drugId }: DrugImageUploadProps) => {
       {requestErrorKey && <Alert severity='error'>{t(requestErrorKey)}</Alert>}
 
       <Button
+        type='button'
         variant='contained'
         onClick={handleUpload}
         disabled={!file || loading}
@@ -86,62 +108,44 @@ export const DrugImageUpload = ({ drugId }: DrugImageUploadProps) => {
         {loading ? t('photoUpload.uploading') : t('photoUpload.upload')}
       </Button>
 
-      {!!uploadedImages.length && (
+      {uploadedImage && (
         <>
           <Alert severity='success'>{t('photoUpload.success')}</Alert>
-          <Box
-            sx={{
-              display: 'grid',
-              gap: 1.5,
-              gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
-            }}
-          >
-            {uploadedImages.map((image) => {
-              const expired = now >= image.expiresAt;
-
-              return (
-                <Box key={image.id}>
-                  {expired ? (
-                    <Box
-                      sx={{
-                        height: 120,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        textAlign: 'center',
-                        bgcolor: 'action.hover',
-                        borderRadius: 1,
-                        p: 1,
-                      }}
-                    >
-                      <Typography variant='caption' color='text.secondary'>
-                        {t('photoUpload.expired')}
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <Box
-                      component='img'
-                      src={image.imageUrl}
-                      alt={t('photoUpload.uploadedAlt', {
-                        name: image.drug.name,
-                      })}
-                      sx={{
-                        display: 'block',
-                        width: '100%',
-                        height: 120,
-                        objectFit: 'cover',
-                        bgcolor: 'action.hover',
-                        borderRadius: 1,
-                      }}
-                    />
-                  )}
-                  <Typography variant='caption' color='text.secondary'>
-                    {new Date(image.createdAt).toLocaleString()}
-                  </Typography>
-                </Box>
-              );
-            })}
-          </Box>
+          {uploadedExpired ? (
+            <Box
+              sx={{
+                height: 160,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                bgcolor: 'action.hover',
+                borderRadius: 1,
+                p: 1,
+              }}
+            >
+              <Typography variant='caption' color='text.secondary'>
+                {t('photoUpload.expired')}
+              </Typography>
+            </Box>
+          ) : (
+            <Box
+              component='img'
+              src={uploadedImage.imageUrl}
+              alt={t('photoUpload.uploadedAlt', {
+                name: uploadedImage.drug.name,
+              })}
+              sx={{
+                display: 'block',
+                maxHeight: 240,
+                maxWidth: '100%',
+                objectFit: 'contain',
+                alignSelf: 'flex-start',
+                bgcolor: 'action.hover',
+                borderRadius: 1,
+              }}
+            />
+          )}
           <Typography variant='caption' color='text.secondary'>
             {t('photoUpload.expiryNotice')}
           </Typography>

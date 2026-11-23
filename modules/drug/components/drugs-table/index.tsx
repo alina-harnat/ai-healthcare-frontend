@@ -21,6 +21,7 @@ interface DrugsTableProps {
   drugs: Drug[];
   onEdit: (drug: Drug) => void;
   onDelete: (drug: Drug) => void;
+  onUploadImage?: (drug: Drug) => void;
   page: number;
   hasMore: boolean;
   loading?: boolean;
@@ -34,6 +35,7 @@ export const DrugsTable = ({
   drugs,
   onEdit,
   onDelete,
+  onUploadImage,
   page,
   hasMore,
   loading = false,
@@ -42,6 +44,7 @@ export const DrugsTable = ({
   const t = useTranslations(DRUG_LOCALE);
 
   const totalPages = Math.max(page + (hasMore ? 2 : 1), 1);
+  const actionsColumnWidth = onUploadImage ? 136 : 88;
 
   return (
     <StyledTableWrapper>
@@ -51,7 +54,7 @@ export const DrugsTable = ({
             {TABLE_COLUMNS.map((column) => (
               <col key={column.key} style={{ width: column.width }} />
             ))}
-            <col style={{ width: 88 }} />
+            <col style={{ width: actionsColumnWidth }} />
           </colgroup>
 
           <TableHead>
@@ -62,7 +65,10 @@ export const DrugsTable = ({
                 </StyledHeaderCell>
               ))}
 
-              <StyledHeaderCell align='center'>
+              <StyledHeaderCell
+                align='center'
+                sx={{ width: actionsColumnWidth }}
+              >
                 {t('table.actions')}
               </StyledHeaderCell>
             </TableRow>
@@ -85,6 +91,7 @@ export const DrugsTable = ({
                     drug={drug}
                     onEdit={onEdit}
                     onDelete={onDelete}
+                    onUploadImage={onUploadImage}
                   />
                 ))}
           </TableBody>
