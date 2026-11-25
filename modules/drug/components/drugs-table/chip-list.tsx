@@ -56,7 +56,6 @@ export const ChipList = ({ items }: ChipListProps) => {
         count += 1;
       }
 
-      // Always keep the first chip visible, shrinking it to fit if necessary
       if (count === 0 && items.length > 0) {
         const hasHidden = items.length > 1;
         const reserved = hasHidden ? ellipsisWidth + GAP : 0;

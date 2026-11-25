@@ -105,6 +105,31 @@ export const readFileAsBase64 = (file: File): Promise<string> =>
     reader.readAsDataURL(file);
   });
 
+export const loadImageFileFromUrl = async (url: string): Promise<File> => {
+  const parsed = new URL(url);
+
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+    throw new Error('Unsupported image URL');
+  }
+
+  const response = await fetch(parsed.href, { mode: 'cors' });
+
+  if (!response.ok) {
+    throw new Error(`Unable to load image: ${response.status}`);
+  }
+
+  const blob = await response.blob();
+  const name = parsed.pathname.split('/').pop() || 'image';
+  const file = new File([blob], name, { type: blob.type });
+  const validation = validateImageFile(file);
+
+  if (validation.errorKey) {
+    throw new Error(validation.errorKey);
+  }
+
+  return file;
+};
+
 interface GraphQLErrorLike {
   message?: string;
   extensions?: { code?: unknown };
@@ -135,6 +160,18 @@ const toGraphQLErrors = (error: unknown): readonly GraphQLErrorLike[] => {
   }
 
   return [];
+};
+
+export const getGraphQLErrorMessage = (error: unknown): string | null => {
+  for (const graphQLError of toGraphQLErrors(error)) {
+    const message = graphQLError.message?.split('\n', 1)[0].trim();
+
+    if (message) {
+      return message.slice(0, 300);
+    }
+  }
+
+  return null;
 };
 
 const getStatusCode = (error: unknown): number | undefined => {

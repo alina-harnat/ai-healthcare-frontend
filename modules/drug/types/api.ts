@@ -154,9 +154,9 @@ export interface SearchSimilarDrugImagesQueryVariables {
   input: {
     image: string;
     mimeType: MimeType;
+    boundingBox?: BoundingBox;
     limit?: number;
     offset?: number;
-    minSimilarityScore?: number;
   };
 }
 
