@@ -158,7 +158,7 @@
     "success": "Photo uploaded.",
     "uploadedAlt": "Uploaded photo of {name}",
     "expired": "Preview link expired",
-    "expiryNotice": "This preview link expires one hour after upload and is not stored in the app."
+    "expiryNotice": ""
   },
   "imageUpload": {
     "unsupportedFile": "Choose a JPEG, PNG, or WebP image.",
